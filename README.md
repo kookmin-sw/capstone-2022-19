@@ -10,23 +10,22 @@ COVID-19 이후로 많은 학교에서 많은 학교에서 비대면시험을 �
 
 ### 3. 팀 소개
 
-**장우석**
-
-1.Student ID: 
-2.e-mail:
-3.Role: back-end
-
-**최근표**
-1.Student ID: 20171710
-2.e-mail: ckp220@kookmin.ac.kr
-3.Role: front-end
-
-
-**한창희**
-1.Student ID: 20171719
-2.e-mail: sjrnfl0412@kookmin.ac.kr
-3.Role: back-end
-
+**장우석**   
+   
+1.Student ID:    
+2.e-mail:   
+3.Role: back-end   
+   
+**최근표**   
+1.Student ID: 20171710   
+2.e-mail: ckp220@kookmin.ac.kr   
+3.Role: front-end   
+   
+**한창희**   
+1.Student ID: 20171719   
+2.e-mail: sjrnfl0412@kookmin.ac.kr   
+3.Role: back-end   
+   
 ### 4. 사용법
 
 소스코드제출시 설치법이나 사용법을 작성하세요.
