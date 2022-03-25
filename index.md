@@ -1,37 +1,29 @@
-## Welcome to GitHub Pages
+### 프로젝트 소개
 
-You can use the [editor on GitHub](https://github.com/kookmin-sw/cap-template/edit/master/index.md) to maintain and preview the content for your website in Markdown files.
+COVID-19 이후로 많은 학교에서 비대면시험을 보고 있다. 그러나 현재의 비대면시험은 공정성 문제와 불편한 점들이 존재한다. 본 프로젝트는 eyetracking을 이용하여 부정행위를 방지하고 더 쉽게 학생들을 감독하도록 도움을 줄 수 있다.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+### Abstract
+Since COVID-19, many schools are taking non-face-to-face exams. However, the current non-face-to-face test has fairness issues and inconveniences. This project can use eyetracking to help prevent cheating and make supervising students easier.
 
-### Markdown
+### 팀 소개
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+장우석
+1.Student ID: 20171692
+2.e-mail: reverse@kookmin.ac.kr
+3.Role: back-end
 
-```markdown
-Syntax highlighted code block
+최근표
+1.Student ID: 20171710
+2.e-mail: ckp220@kookmin.ac.kr
+3.Role: front-end
 
-# Header 1
-## Header 2
-### Header 3
+한창희
+1.Student ID: 20171719
+2.e-mail: sjrnfl0412@kookmin.ac.kr
+3.Role: back-end
 
-- Bulleted
-- List
+### 사용법
 
-1. Numbered
-2. List
 
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/kookmin-sw/cap-template/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+### 기타
+팀페이지 주소 -> https://kookmin-sw.github.io/capstone-2022-19/
