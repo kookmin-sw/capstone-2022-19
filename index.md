@@ -7,20 +7,20 @@ Since COVID-19, many schools are taking non-face-to-face exams. However, the cur
 
 ### 팀 소개
 
-장우석
-1.Student ID: 20171692
-2.e-mail: reverse@kookmin.ac.kr
-3.Role: back-end
+장우석 <br>
+1.Student ID: 20171692 <br>
+2.e-mail: reverse@kookmin.ac.kr <br>
+3.Role: back-end <br>
 
-최근표
-1.Student ID: 20171710
-2.e-mail: ckp220@kookmin.ac.kr
-3.Role: front-end
+최근표 <br>
+1.Student ID: 20171710 <br>
+2.e-mail: ckp220@kookmin.ac.kr <br>
+3.Role: front-end <br>
 
-한창희
-1.Student ID: 20171719
-2.e-mail: sjrnfl0412@kookmin.ac.kr
-3.Role: back-end
+한창희 <br>
+1.Student ID: 20171719 <br>
+2.e-mail: sjrnfl0412@kookmin.ac.kr <br>
+3.Role: back-end <br>
 
 ### 사용법
 
