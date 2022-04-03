@@ -2,7 +2,7 @@
    
    
 # On-감독  
-<img src="https://user-images.githubusercontent.com/51365114/119627750-716f3100-be47-11eb-8e83-686b23c2c161.png"  width="100" height="100">
+<img src="https://user-images.githubusercontent.com/28581787/161417212-011cb004-0c1b-431b-a0bc-1f701e8e09ee.png"  width="100" height="100">
 
 ---------------------------------------  
 ### 1. 프로젝트 소개
