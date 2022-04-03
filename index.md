@@ -39,10 +39,8 @@ Currently, non-face-to-face activities have been activated due to COVID-19, vari
 
 ### 5.사용법
 
-향후 추가 
+향후 추가 예정
 
 ### 6.기타
 
-
-### 기타
 팀페이지 주소 -> https://kookmin-sw.github.io/capstone-2022-19/
