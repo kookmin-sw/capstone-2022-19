@@ -15,7 +15,7 @@ As non-face-to-face activities have been activated due to the coronavirus infect
 ---------------------------------------
 ### 3. 소개 영상
 
-프로젝트 소개하는 영상을 추가하세요
+추가 예정
 
 ---------------------------------------
 ### 4. 팀 소개
@@ -37,6 +37,7 @@ As non-face-to-face activities have been activated due to the coronavirus infect
 
 ---------------------------------------
 ### 5. 사용법
+
 추가예정
 
 ---------------------------------------
