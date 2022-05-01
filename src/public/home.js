@@ -28,7 +28,7 @@ let receivePC;
 let receivePCs = {};
 let myStream;
 let index;
-
+let tmp ;
 btnProfessor.addEventListener("click", handleProfessorBtn);
 btnStudent.addEventListener("click", handleStudentBtn);
 
@@ -65,7 +65,7 @@ socket.on("alreadyExist", () => {
 socket.on("joinRoom", async (data) => {
     console.log("Join : " + data.userId + " RoomID : " + data.roomId);
     index = data.index;
-
+    tmp =  data.roomId;
     await navigator.mediaDevices
         .getUserMedia({
             audio: true,

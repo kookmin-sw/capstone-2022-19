@@ -6,11 +6,9 @@
  const LEC = [(keypoints[446][0] + keypoints[464][0]) / 2, (keypoints[446][1] + keypoints[464][1]) / 2];
 */
  
-import TRIANGULATION from "./TRIANGULATION.js";
-
 let totalScore = 0 ;
 
-  export const facePoint = (face) =>{
+   const facePoint = (face) =>{
     let RPC = face[0].scaledMesh[473];
     let LPC = face[0].scaledMesh[468];
 
@@ -29,7 +27,7 @@ let totalScore = 0 ;
   }
 
 
-  export const detectPupil = (LEC, REC, LPC, RPC) => {
+   const detectPupil = (LEC, REC, LPC, RPC) => {
 
     let leftEyeXDiff = LPC[0] - LEC[0];
     let leftEyeYDiff = LPC[1] - LEC[1];
@@ -84,7 +82,7 @@ let totalScore = 0 ;
   };
   
   // Drawing Mesh
-  export const drawMesh = (predictions, ctx) => {
+   const drawMesh = (predictions, ctx) => {
     if (predictions.length > 0) {
       predictions.forEach((prediction) => {
         const keypoints = prediction.scaledMesh;

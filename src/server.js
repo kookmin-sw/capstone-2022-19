@@ -15,7 +15,6 @@ const io = socket(httpServer);
 
 let rooms = {};
 
-
 let iceServers = {
     iceServers: [
         { urls: "stun:stun.services.mozilla.com" },
@@ -23,17 +22,15 @@ let iceServers = {
     ],
 };
 
-
 io.on("connection", (socket) => {
     console.log(`${socket.id} Connected`);
-
 
     //교수 입장
     socket.on("professorJoin", (data) => {
         let roomId = data.roomId;
         let userId = data.userId;
         console.log(`professor : ${userId} joined `);
-
+        video_load = { roomId: roomId, userId: socket.id };
         if (roomId in rooms) {
             console.log("This room already exist");
             socket.emit("alreadyExist");
@@ -55,6 +52,7 @@ io.on("connection", (socket) => {
             rooms[roomId].presenter.push(userId);
             socket.join(roomId);
             socket.emit('joinRoom', data);
+           
         } else {
             console.log("This room doesn't exist");
             socket.emit("noRoom");

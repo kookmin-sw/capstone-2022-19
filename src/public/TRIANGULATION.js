@@ -2641,5 +2641,3 @@ const TRIANGULATION = [
     448,
     255,
   ];
-  
-  export default TRIANGULATION
