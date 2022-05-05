@@ -4,7 +4,7 @@
   "description": "[![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-f059dc9a6f8d3a56e377f745f24479a46679e63a5d9fe6f495e02850cd0d8118.svg)](https://classroom.github.com/online_ide?assignment_repo_id=7224673&assignment_repo_type=AssignmentRepo)",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon src/server.js"
+    "start": "nodemon ./src/server.js"
   },
   "repository": {
     "type": "git",
@@ -18,8 +18,10 @@
   "homepage": "https://github.com/fullstannum/capstone-2022-19#readme",
   "dependencies": {
     "@tensorflow-models/face-landmarks-detection": "^1.0.1",
+    "body-parser": "^1.20.0",
     "ejs": "^3.1.7",
     "express": "^4.18.1",
+    "firebase": "^9.7.0",
     "nodemon": "^2.0.16",
     "socket.io": "^4.5.0"
   }

@@ -1,20 +1,33 @@
 const http = require("http");
 const socket = require("socket.io");
 const express = require("express");
+const bodyParser = require("body-parser");
+
+
 const app = express();
-
-app.engine('html', require('ejs').renderFile);
-app.set('view engine', 'html');
-app.set("views", __dirname + "/views");
-app.use("/public", express.static(__dirname + "/public"));
-app.get("/", (req, res) => res.render("home.html"));
-
-
 const httpServer = http.createServer(app);
 const io = socket(httpServer);
+const PORT = 3000;
+
+//routing
+const routing = require("./routes/router");
+
+
+//setting
+app.set('view engine', 'ejs');
+app.set("views", __dirname + "/views");
+app.use("/public", express.static(__dirname + "/public"));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use("/", routing);
+
+
+
 
 let rooms = {};
 
+
+//iceServer
 let iceServers = {
     iceServers: [
         { urls: "stun:stun.services.mozilla.com" },
@@ -22,6 +35,8 @@ let iceServers = {
     ],
 };
 
+
+//socket code
 io.on("connection", (socket) => {
     console.log(`${socket.id} Connected`);
 
@@ -52,7 +67,7 @@ io.on("connection", (socket) => {
             rooms[roomId].presenter.push(userId);
             socket.join(roomId);
             socket.emit('joinRoom', data);
-           
+
         } else {
             console.log("This room doesn't exist");
             socket.emit("noRoom");
@@ -82,4 +97,4 @@ io.on("connection", (socket) => {
 
 
 const handleListen = () => console.log(`Listening on http://localhost:3000`);
-httpServer.listen(3000, handleListen);
+httpServer.listen(PORT, handleListen);
