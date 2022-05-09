@@ -9,12 +9,15 @@ let iceServers = {
 };
 
 const localvideo = document.getElementById("localvideo");
+const screenSharevideo = document.getElementById("screen-share");
 const streams = document.getElementById("streams");
 const btnProfessor = document.getElementById("professor");
 const btnStudent = document.getElementById("student");
 
+
 let sendPC;
 let myStream;
+let screenShare;
 let index;
 let tmp;
 
@@ -53,6 +56,14 @@ socket.on("joinRoom", async (data) => {
             sendPC.addTrack(myStream.getTracks()[0], myStream);
             sendPC.addTrack(myStream.getTracks()[1], myStream);
 
+            
+        })
+    await navigator.mediaDevices
+        .getDisplayMedia().then(function(stream) {
+            screenShare = stream;
+            screenSharevideo.srcObject = stream;
+            sendPC.addTrack(screenShare.getTracks()[0], screenShare);
+
             sendPC.
                 createOffer()
                 .then((offer) => {
@@ -60,6 +71,7 @@ socket.on("joinRoom", async (data) => {
                     socket.emit("reqAnswer", offer, data);
                 })
         })
+
 
 })
 
