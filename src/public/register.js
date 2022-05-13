@@ -2,7 +2,7 @@
 
 
 const name = document.getElementById("name"),
-    id = document.getElementById("id"),
+    email = document.getElementById("email"),
     password = document.getElementById("password"),
     confirmPassword = document.getElementById("confirm-password"),
     typeNode = document.getElementsByName("job"),
@@ -23,30 +23,42 @@ function register() {
         }
     })
 
-    const request = {
-        name: name.value,
-        id: id.value,
-        password: password.value,
-        confirmPassword: confirmPassword.value,
-        type: type,
-    };
+    if(password.value != confirmPassword.value){
 
-    fetch('/register', {
-        method: "POST",
-        headers: {
-        "Content-Type": "application/json"
-    },
-        body: JSON.stringify(request)
-    })
-    .then((res) => res.json())
-    .then((res) => {
-        if (res.success) {
-            location.href = "/login";
-        } else {
-            alert(res.msg);
-        }
-    })
-    .catch((e) => {
-        console.error("error");
-    });
+        console.log(password.value);
+        console.log(confirmPassword.value);
+        alert("비밀번호가 일치하지 않습니다.");
+        return;
+
+    }else{
+        const request = {
+            name: name.value,
+            email: email.value,
+            password: password.value,
+            confirmPassword: confirmPassword.value,
+            type: type,
+        };
+    
+        fetch('/register', {
+            method: "POST",
+            headers: {
+            "Content-Type": "application/json"
+        },
+            body: JSON.stringify(request)
+        })
+        .then((res) => res.json())
+        .then((res) => {
+            console.log(res.success);
+            if (res.success) {
+                location.href = "/login";
+            } else {
+                alert(res.msg);
+            }
+        })
+        .catch((e) => {
+            console.error("error");
+        });
+    }
+
+    
 }
