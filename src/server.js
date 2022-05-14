@@ -33,9 +33,11 @@ let iceServers = {
     iceServers: [
         { urls: "stun:stun.services.mozilla.com" },
         { urls: "stun:stun.l.google.com:19302" },
+        {urls: "turn:3.35.167.232?transport=tcp", 
+        username: 'reverse2', 
+        credential: '277400'},
     ],
 };
-
 
 //socket code
 io.on("connection", (socket) => {

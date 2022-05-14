@@ -2,9 +2,8 @@
 
 const users = require("../public/data/userdata");
 const config = require("./config");
-const { getAuth, createUserWithEmailAndPassword } = require('firebase/auth');
-const { doc, setDoc } = require('firebase/firestore');
-
+const { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } = require('firebase/auth');
+const { collection, doc, setDoc, query, where, getDocs } = require('firebase/firestore');
 
 const firebase = config.firebase;
 const database = config.database;
@@ -32,22 +31,74 @@ const output = {
 
 
 const process = {
+
     login: (req, res) => {
-        const id = req.body.id;
+        const email = req.body.email;
         const password = req.body.password;
         const response = {};
 
-        if (users.id.includes(id)) {
-            const idx = users.id.indexOf(id);
-            if (users.password[idx] === password) {
-                response.success = true;
-                return res.json(response);
-            }
-        }
+        signInWithEmailAndPassword(auth, email, password)
+            .then(async (userCredential) => {
+                console.log("login user email is : " + email);
 
-        response.success = false;
-        response.msg = "로그인 실패";
-        return res.json(response);
+                let userDB = collection(database, 'users');
+                const q = query(userDB, where("email", "==", email));
+
+                const querySnapshot = await getDocs(q);
+                querySnapshot.forEach((doc) => {
+                    if (doc.empty) {
+                        response.success = false;
+                        response.message = "저장된 정보가 없습니다";
+                    } else {
+
+                        const name = doc.data().name;
+                        const email = doc.data().email;
+                        const type = doc.data().type;
+
+                        const userInfo = {
+                            name: name,
+                            email: email,
+                            type: type,
+                        };
+
+                        response.success = true;
+                        response.userInfo = userInfo;
+
+                    }
+
+                    return res.json(response);
+
+                })
+                    .catch((error) => {
+                        console.log('Error getting documents', error);
+                    });
+
+            })
+            .catch((error) => {
+                switch (error.code) {
+                    case "auth/invalid-email":
+                        response.success = false;
+                        response.message = '유효하지 않은 메일입니다'
+                        return res.json(response);
+                        break;
+                    case "auth/user-disabled":
+                        response.success = false;
+                        response.message = '사용이 정지된 유저입니다'
+                        return res.json(response);
+                        break;
+                    case "auth/user-not-found":
+                        response.success = false;
+                        response.message = '사용자를 찾을 수 없습니다'
+                        return res.json(response);
+                        break;
+                    case "auth/wrong-password":
+                        response.success = false;
+                        response.message = '잘못된 패스워드 입니다'
+                        return res.json(response);
+                        break;
+                }
+
+            })
     },
 
     register: (req, res) => {
@@ -67,30 +118,17 @@ const process = {
                     name: name,
                     type: type,
                 }
-                
 
-
+                //DB유저 정보 저장
                 try {
                     await setDoc(doc(database, "users", userCredential.user.uid), {
                         name: name,
                         email: email,
                         type: type
                     });
-                  } catch (e) {
+                } catch (e) {
                     console.error("Error adding document: ", e);
-                  }
-
-
-                // DB유저 정보 저장
-                // database.collection('users').doc(currentUser.id).set({
-                //     name: currentUser.name,
-                //     email: currentUser.email,
-                //     type: currentUser.type
-                // }).then(function () {
-                //     console.log('fbDB에 유저정보 추가 성공');
-                // }).catch(function (error) {
-                //     console.log(error.code);
-                // })
+                }
 
                 response.success = true;
                 console.log(response);
@@ -116,7 +154,7 @@ const process = {
                         break;
                     case "auth/weak-password":
                         response.success = false;
-                        response.msg = "비밀번호를 6자리 이상 필요합니다.";
+                        response.msg = "비밀번호를 6자리 이상 입력해주세요.";
                         return res.json(response);
                         break;
                 }
@@ -124,17 +162,6 @@ const process = {
 
 
     },
-
-    // save: (req, res) =>{
-    //     database.ref('customer').set({name : "junseok"}, function(error) {
-    //         if(error)
-    //             console.error(error)
-    //         else
-    //             console.log("success save !!");
-    //     });
-    //     return res.json({firebase : true});
-    // },
-
 
 };
 
