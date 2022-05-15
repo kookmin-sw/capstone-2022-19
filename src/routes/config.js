@@ -1,23 +1,22 @@
-var admin = require("firebase-admin");
-
-var serviceAccount = require("../public/data/ongamdock-project-firebase-adminsdk-vq6w0-68b5c5cd21.json");
-
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://ongamdock-project-default-rtdb.firebaseio.com"
-});
+const { initializeApp } = require('firebase/app');
+const { getFirestore } = require("firebase/firestore");
 
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBsMZhiWbYUOIUPAWQ2sjc-s2vM83JQs-8",
-  authDomain: "ongamdock-project.firebaseapp.com",
-  projectId: "ongamdock-project",
-  storageBucket: "ongamdock-project.appspot.com",
-  messagingSenderId: "569465704962",
-  appId: "1:569465704962:web:c745e13de007b8313b8d1b"
+  apiKey: "AIzaSyAVlndUwE5oUNLbeHCiplp_Y27LMNLncPU",
+  authDomain: "ongamdock-54e3e.firebaseapp.com",
+  projectId: "ongamdock-54e3e",
+  storageBucket: "ongamdock-54e3e.appspot.com",
+  messagingSenderId: "1080662317677",
+  appId: "1:1080662317677:web:178d6405cbd1a9041ffd64"
 };
 
 // Initialize Firebase
-let database = admin.firestore();
+const firebase = initializeApp(firebaseConfig);
+const database = getFirestore(firebase);
 
-module.exports = database;
+
+module.exports = {
+  firebase,
+  database,
+}  

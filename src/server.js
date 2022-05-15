@@ -1,6 +1,7 @@
 const http = require("http");
 const socket = require("socket.io");
 const express = require("express");
+const session = require("express-session");
 const bodyParser = require("body-parser");
 
 
@@ -13,27 +14,25 @@ const PORT = 3000;
 const routing = require("./routes/router");
 
 
+
 //setting
 app.set('view engine', 'ejs');
 app.set("views", __dirname + "/views");
 app.use("/public", express.static(__dirname + "/public"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(session({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized : true
+}))
+
 app.use("/", routing);
 
 
 
-
 let rooms = {};
-
-
-//iceServer
-let iceServers = {
-    iceServers: [
-        { urls: "stun:stun.services.mozilla.com" },
-        { urls: "stun:stun.l.google.com:19302" },
-    ],
-};
 
 
 //socket code

@@ -1,6 +1,6 @@
 "use strict";
 
-const id = document.getElementById("id");
+const email = document.getElementById("email");
 const password = document.getElementById("password");
 const loginButton = document.querySelector("#button");
 
@@ -8,7 +8,7 @@ loginButton.addEventListener("click", login);
 
 function login() {
     const request = {
-        id: id.value,
+        email: email.value,
         password: password.value,
     };
     fetch('/login', {
@@ -21,12 +21,17 @@ function login() {
     .then((res)=>res.json())
     .then((res)=>{
         if(res.success){
-            location.href = "/user";
+            console.log(res.userInfo.type);
+            if(res.userInfo.type === "student"){
+                location.href = "/user";
+            }else{
+                location.href = "/manager";
+            }
         }else{
-            alert(res.msg); 
+            alert(res.message); 
         }
     })
     .catch((e)=>{
-        console.error("error");
+        console.error(e);
     });
 }

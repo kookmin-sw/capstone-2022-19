@@ -1,23 +1,59 @@
 "use strict";
 
-const users = require("../public/data/userdata");
-const database = require("./config");
+const config = require("./config");
+const { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } = require('firebase/auth');
+const { collection, doc, setDoc, query, where, getDocs } = require('firebase/firestore');
+
+
+const firebase = config.firebase;
+const database = config.database;
+const auth = getAuth();
 
 
 const output = {
 
     home: (req, res) => {
-        res.render("login");
+        res.redirect("login");
     },
     login: (req, res) => {
-        res.render("login");
+        if (req.session.isLogined === undefined) {
+            res.render("login");
+        } else if (req.session.isLogined) {
+            if (req.session.userInfo.type === "student") {
+                res.render("user");
+            } else {
+                res.render("manager");
+            }
+        }
     },
     user: (req, res) => {
-        res.render("user");
+        if (req.session.isLogined === true) {
+            if (req.session.userInfo.type === "student") {
+                res.render("user");
+            } else if (req.session.userInfo.type === "professor") {
+                res.render("manager")
+            } else {
+                res.render("login");
+            }
+        } else {
+            res.render("login");
+        }
+
     },
     manager: (req, res) => {
-        res.render("manager");
+        if (req.session.isLogined === true) {
+            if (req.session.userInfo.type === "professor") {
+                res.render("manager");
+            } else if (req.session.userInfo.type === "student") {
+                res.render("user")
+            } else {
+                res.render("login");
+            }
+        } else {
+            res.render("login");
+        }
     },
+
     register: (req, res) => {
         res.render("register")
     }
@@ -25,46 +61,145 @@ const output = {
 
 
 const process = {
+
     login: (req, res) => {
-        const id = req.body.id;
+        const email = req.body.email;
         const password = req.body.password;
         const response = {};
 
-        if (users.id.includes(id)) {
-            const idx = users.id.indexOf(id);
-            if (users.password[idx] === password) {
-                response.success = true;
-                return res.json(response);
-            }
-        }
+        signInWithEmailAndPassword(auth, email, password)
+            .then(async (userCredential) => {
+                console.log("login user email is : " + email);
 
-        response.success = false;
-        response.msg = "로그인 실패";
-        return res.json(response);
+                let userDB = collection(database, 'users');
+                const q = query(userDB, where("email", "==", email));
+
+                const querySnapshot = await getDocs(q);
+                querySnapshot.forEach((doc) => {
+                    if (doc.empty) {
+                        response.success = false;
+                        response.message = "저장된 정보가 없습니다";
+                    } else {
+
+                        const name = doc.data().name;
+                        const email = doc.data().email;
+                        const type = doc.data().type;
+
+                        const userInfo = {
+                            name: name,
+                            email: email,
+                            type: type,
+                        };
+
+                        response.success = true;
+                        response.userInfo = userInfo;
+
+                        req.session.isLogined = true;
+                        req.session.userInfo = userInfo;
+
+                    }
+
+                    return res.json(response);
+
+                })
+                    .catch((error) => {
+                        console.log('Error getting documents', error);
+                    });
+
+            })
+            .catch((error) => {
+                switch (error.code) {
+                    case "auth/invalid-email":
+                        response.success = false;
+                        response.message = '유효하지 않은 메일입니다'
+                        return res.json(response);
+                        break;
+                    case "auth/user-disabled":
+                        response.success = false;
+                        response.message = '사용이 정지된 유저입니다'
+                        return res.json(response);
+                        break;
+                    case "auth/user-not-found":
+                        response.success = false;
+                        response.message = '사용자를 찾을 수 없습니다'
+                        return res.json(response);
+                        break;
+                    case "auth/wrong-password":
+                        response.success = false;
+                        response.message = '잘못된 패스워드 입니다'
+                        return res.json(response);
+                        break;
+                }
+
+            })
     },
 
-    register: (req, res) =>{
+    register: (req, res) => {
 
         const response = {};
         const name = req.body.name;
-        const id = req.body.id;
+        const email = req.body.email;
         const password = req.body.password;
-        const confirmPassword = req.body.confirmPassword;
         const type = req.body.type;
 
-        
-    },
-    
-    save: (req, res) =>{
-        database.ref('customer').set({name : "junseok"}, function(error) {
-            if(error)
-                console.error(error)
-            else
-                console.log("success save !!");
-        });
-        return res.json({firebase : true});
+
+        createUserWithEmailAndPassword(auth, email, password)
+            .then(async (userCredential) => {
+                const currentUser = {
+                    id: userCredential.user.uid,
+                    email: email,
+                    name: name,
+                    type: type,
+                }
+
+                //DB유저 정보 저장
+                try {
+                    await setDoc(doc(database, "users", userCredential.user.uid), {
+                        name: name,
+                        email: email,
+                        type: type
+                    });
+                } catch (e) {
+                    console.error("Error adding document: ", e);
+                }
+
+                response.success = true;
+                console.log(response);
+                return res.json(response);
+
+            })
+            .catch(function (error) {
+                switch (error.code) {
+                    case "auth/email-already-in-use":
+                        response.success = false;
+                        response.msg = "이미 사용중인 이메일 입니다.";
+                        return res.json(response);
+                        break;
+                    case "auth/invalid-email":
+                        response.success = false;
+                        response.msg = "유효하지 않은 메일입니다.";
+                        return res.json(response);
+                        break;
+                    case "auth/operation-not-allowed":
+                        response.success = false;
+                        response.msg = "이메일 가입이 중지되었습니다.";
+                        return res.json(response);
+                        break;
+                    case "auth/weak-password":
+                        response.success = false;
+                        response.msg = "비밀번호를 6자리 이상 입력해주세요.";
+                        return res.json(response);
+                        break;
+                }
+            })
+
+
     },
 
+
+    session: (req, res) => {
+        res.resder("user");
+    }
 
 };
 
