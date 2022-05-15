@@ -21,12 +21,17 @@ function login() {
     .then((res)=>res.json())
     .then((res)=>{
         if(res.success){
-            console.log(res.userInfo);
+            console.log(res.userInfo.type);
+            if(res.userInfo.type === "student"){
+                location.href = "/user";
+            }else{
+                location.href = "/manager";
+            }
         }else{
             alert(res.message); 
         }
     })
     .catch((e)=>{
-        console.error("error");
+        console.error(e);
     });
 }

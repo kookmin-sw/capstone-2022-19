@@ -1,9 +1,9 @@
 "use strict";
 
-const users = require("../public/data/userdata");
 const config = require("./config");
 const { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } = require('firebase/auth');
 const { collection, doc, setDoc, query, where, getDocs } = require('firebase/firestore');
+
 
 const firebase = config.firebase;
 const database = config.database;
@@ -13,17 +13,46 @@ const auth = getAuth();
 const output = {
 
     home: (req, res) => {
-        res.render("login");
+        console.log(req.session);
+        res.send("Hello session");
     },
     login: (req, res) => {
-        res.render("login");
+        if(req.session.isLogined){
+            if(req.session.userInfo.type === "student"){
+                res.render("user");
+            }else{
+                res.render("manager");
+            }
+        }
     },
     user: (req, res) => {
-        res.render("user");
+        if(req.session.isLogined){
+            if(req.session.userInfo.type === "student"){
+                res.render("user");
+            }else if(req.session.userInfo.type === "professor"){
+                res.render("manager")
+            }else{
+                res.render("login");
+            }
+        }else{
+            res.render("login");
+        }
+        
     },
     manager: (req, res) => {
-        res.render("manager");
+        if(req.session.isLogined){
+            if(req.session.userInfo.type === "professor"){
+                res.render("manager");
+            }else if(req.session.userInfo.type === "student"){
+                res.render("user")
+            }else{
+                res.render("login");
+            }
+        }else{
+            res.render("login");
+        }
     },
+
     register: (req, res) => {
         res.render("register")
     }
@@ -64,6 +93,9 @@ const process = {
                         response.success = true;
                         response.userInfo = userInfo;
 
+                        req.session.isLogined = true;
+                        req.session.userInfo = userInfo;
+                                                                                                                                        
                     }
 
                     return res.json(response);
@@ -162,6 +194,11 @@ const process = {
 
 
     },
+
+
+    session : (req,res) =>{
+        res.resder("user");
+    }
 
 };
 

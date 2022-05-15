@@ -1,6 +1,7 @@
 const http = require("http");
 const socket = require("socket.io");
 const express = require("express");
+const session = require("express-session");
 const bodyParser = require("body-parser");
 
 
@@ -20,8 +21,14 @@ app.set("views", __dirname + "/views");
 app.use("/public", express.static(__dirname + "/public"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use("/", routing);
 
+app.use(session({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized : true
+}))
+
+app.use("/", routing);
 
 
 
