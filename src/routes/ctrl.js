@@ -13,42 +13,43 @@ const auth = getAuth();
 const output = {
 
     home: (req, res) => {
-        console.log(req.session);
-        res.send("Hello session");
+        res.redirect("login");
     },
     login: (req, res) => {
-        if(req.session.isLogined){
-            if(req.session.userInfo.type === "student"){
+        if (req.session.isLogined === undefined) {
+            res.render("login");
+        } else if (req.session.isLogined) {
+            if (req.session.userInfo.type === "student") {
                 res.render("user");
-            }else{
+            } else {
                 res.render("manager");
             }
         }
     },
     user: (req, res) => {
-        if(req.session.isLogined){
-            if(req.session.userInfo.type === "student"){
+        if (req.session.isLogined === true) {
+            if (req.session.userInfo.type === "student") {
                 res.render("user");
-            }else if(req.session.userInfo.type === "professor"){
+            } else if (req.session.userInfo.type === "professor") {
                 res.render("manager")
-            }else{
+            } else {
                 res.render("login");
             }
-        }else{
+        } else {
             res.render("login");
         }
-        
+
     },
     manager: (req, res) => {
-        if(req.session.isLogined){
-            if(req.session.userInfo.type === "professor"){
+        if (req.session.isLogined === true) {
+            if (req.session.userInfo.type === "professor") {
                 res.render("manager");
-            }else if(req.session.userInfo.type === "student"){
+            } else if (req.session.userInfo.type === "student") {
                 res.render("user")
-            }else{
+            } else {
                 res.render("login");
             }
-        }else{
+        } else {
             res.render("login");
         }
     },
@@ -95,7 +96,7 @@ const process = {
 
                         req.session.isLogined = true;
                         req.session.userInfo = userInfo;
-                                                                                                                                        
+
                     }
 
                     return res.json(response);
@@ -196,7 +197,7 @@ const process = {
     },
 
 
-    session : (req,res) =>{
+    session: (req, res) => {
         res.resder("user");
     }
 
