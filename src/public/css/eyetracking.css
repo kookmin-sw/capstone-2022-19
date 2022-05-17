@@ -1,0 +1,66 @@
+.parent {
+    font-size: 20px; 
+    border: 2px solid white;
+    color: white;
+    background: white;
+    padding: 1rem;
+  }
+  
+  .child {
+    background: blue;
+    padding: 1rem;
+    width: 70px;
+    height: 50px;
+  }
+
+ 
+  .center {
+    color: black;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+
+.left {
+    color: black;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 1;
+    margin: auto;
+}
+
+.bottom {
+    color: black;
+    position: absolute;
+    top: 1;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+
+.top {
+    color: black;
+    position: absolute;
+    top: 0;
+    bottom: 10;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+
+
+.right {
+    color: black;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 1;
+    right: 0;
+    margin: auto;
+}

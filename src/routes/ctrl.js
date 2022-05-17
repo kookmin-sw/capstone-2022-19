@@ -56,6 +56,11 @@ const output = {
 
     register: (req, res) => {
         res.render("register")
+    },
+
+
+    eyeTracking: (req, res) => {
+        res.render("eyeTracking");
     }
 };
 
