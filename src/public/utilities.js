@@ -7,6 +7,56 @@
 */
  
 let totalScore = 0 ;
+let storage = new Array();
+let leftEyeXDiffSum = 0;
+let leftEyeYDiffSum = 0;
+let RightEyeXDiffSum = 0;
+let RightEyeYDiffSum = 0;
+
+  async function zero_set(){
+    leftEyeXDiffSum = 0;
+    leftEyeYDiffSum = 0;
+    RightEyeXDiffSum = 0;
+    RightEyeYDiffSum = 0;
+  }
+
+
+  async function returnValue(){
+    
+    storage.push((leftEyeXDiffSum+RightEyeXDiffSum)/100);
+    storage.push((leftEyeYDiffSum+RightEyeYDiffSum)/100);
+    return storage;
+    //console.log(leftEyeXDiffSum,RightEyeXDiffSum,leftEyeYDiffSum,RightEyeYDiffSum);
+}
+
+  async function verification (face) {
+
+    let RPC = face[0].scaledMesh[473];
+    let LPC = face[0].scaledMesh[468];
+
+    let RE2 = face[0].scaledMesh[244];
+    let RE4 = face[0].scaledMesh[226];
+
+    let LE2 = face[0].scaledMesh[446];
+    let LE4 = face[0].scaledMesh[464];
+
+    let LEC = [(LE2[0] + LE4[0]) / 2, (LE2[1] + LE4[1]) / 2]
+    let REC = [(RE2[0] + RE4[0]) / 2, (RE2[1] + RE4[1]) / 2]
+
+    //storage.push({leftEyeXDiff : LPC[0] - LEC[0]});
+    leftEyeXDiffSum = leftEyeXDiffSum + (LPC[0]-LEC[0]);
+    //storage.push({leftEyeYDiff : LPC[1] - LEC[1]});
+    leftEyeYDiffSum = leftEyeYDiffSum + (LPC[1] - LEC[1]);
+    //storage.push({rightEyeXDiff : RPC[0] - REC[0]});
+    RightEyeXDiffSum = RightEyeXDiffSum + (RPC[0] - REC[0]);
+    //storage.push({rightEyeYDiff : RPC[1] - REC[1]});
+    RightEyeYDiffSum = RightEyeYDiffSum + (RPC[1] - REC[1]);  
+    return ({leftEyeXDiffSum,leftEyeYDiffSum});
+    //console.log(leftEyeXDiffSum,leftEyeYDiffSum);
+  }
+
+
+
 
    const facePoint = (face) =>{
     let RPC = face[0].scaledMesh[473];
@@ -21,13 +71,55 @@ let totalScore = 0 ;
     let LEC = [(LE2[0] + LE4[0]) / 2, (LE2[1] + LE4[1]) / 2]
     let REC = [(RE2[0] + RE4[0]) / 2, (RE2[1] + RE4[1]) / 2]
 
+    //-----------------------------------------------------------------//
+
+    let faceLeft = face[0].scaledMesh[454]; 
+    let faceRight = face[0].scaledMesh[234]; 
+    let faceTop = face[0].scaledMesh[10];   
+    let faceBottom = face[0].scaledMesh[152];
+    let faceNose = face[0].scaledMesh[1]; 
+    let faceMouth = face[0].scaledMesh[0]; 
     totalScore = totalScore + detectPupil(LEC, REC, LPC, RPC);
+    totalScore = totalScore + faceAngle(faceLeft, faceRight, faceTop, faceBottom);
     console.log(totalScore);
-    ;
   }
 
 
-   const detectPupil = (LEC, REC, LPC, RPC) => {
+  const faceAngle = (faceLeft, faceRight, faceTop, faceBottom ) => {
+    let returnScore = 0;
+    let cp1 = [(faceLeft[0] + faceRight[0]) / 2, (faceLeft[1] + faceRight[1]) / 2];
+    let cp2 = [(faceTop[0] + faceBottom[0]) / 2, (faceTop[1] + faceBottom[1]) / 2];
+    let centerPoint = [(cp1[0] - cp2[0]), (cp1[1] - cp2[1])];
+
+    if ( centerPoint[0] < -40) {
+        // facing left
+        //console.log(centerPoint[0]);
+        console.log("left");
+        returnScore = 2.5;
+
+    } else if ( centerPoint[0] > -10 &&  centerPoint[0] < 10) {
+        // facing front
+        //console.log(centerPoint[0]);
+        console.log("front");
+        returnScore = -0.5;
+
+    } else if ( centerPoint[0] > 40) {
+        // facing right
+        //console.log(centerPoint[0]);
+        console.log("right");
+        returnScore = 2.5;
+    }
+
+    if ( centerPoint[1] > 10) {
+       // console.log(centerPoint[1]);
+        console.log("Looking up");
+        returnScore = 2.5;
+    }
+
+    return returnScore;
+
+  }
+  const detectPupil = (LEC, REC, LPC, RPC) => {
 
     let leftEyeXDiff = LPC[0] - LEC[0];
     let leftEyeYDiff = LPC[1] - LEC[1];
@@ -39,31 +131,30 @@ let totalScore = 0 ;
 
     if ((leftEyeXDiff + rightEyeXDiff) < -5) {
         console.log("eye right");
-        //pupilState.innerHTML = "오른쪽";
-        // totalScore = totalScore + 2.5;
         returnScore = 2.5;
 
     } else if ((leftEyeXDiff + rightEyeXDiff) > 5) {
         console.log("eye left");
-        //pupilState.innerHTML = "왼쪽";
-        // totalScore = totalScore + 2.5;
         returnScore = 2.5;
 
     } else {
+        //console.log(leftEyeYDiff+rightEyeYDiff);
         console.log("eye center");
-        //pupilState.innerHTML = "정면";
-        // totalScore = totalScore - 0.5;
         returnScore = -0.5;
     }
 
-    if ((leftEyeYDiff + rightEyeYDiff) < -15) {
-        //pupilState.innerHTML = "위쪽";
-        console.log("위쪽");
-        // totalScore = totalScore + 2.5;
-        returnScore = 2.5;
+    if ((leftEyeYDiff + rightEyeYDiff) < storage[1]) {
+      console.log(leftEyeYDiff+rightEyeYDiff);
+      console.log("위쪽");
+      returnScore = 2.5;
     }
     return returnScore;
 }
+
+
+
+
+
 
   // Triangle drawing method
   const drawPath = (ctx, points, closePath) => {

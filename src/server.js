@@ -8,7 +8,18 @@ const bodyParser = require("body-parser");
 const app = express();
 const httpServer = http.createServer(app);
 const io = socket(httpServer);
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
+
+let iceServers = {
+    iceServers: [
+        { urls: "stun:stun.services.mozilla.com" },
+        { urls: "stun:stun.l.google.com:19302" },
+        {urls: 'turn:3.38.181.169:3478?transport=tcp', 
+        username: 'reverse2', 
+        credential: '277400'},
+    ],
+};
+
 
 //routing
 const routing = require("./routes/router");
