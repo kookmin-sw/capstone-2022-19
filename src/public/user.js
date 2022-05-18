@@ -19,7 +19,7 @@ let sendPC;
 let myStream;
 let screenShare;
 let index;
-let tmp;
+let rId;
 
 btnStudent.addEventListener("click", handleStudentBtn);
 
@@ -37,7 +37,7 @@ function handleStudentBtn(event) {
 socket.on("joinRoom", async (data) => {
     console.log("Join : " + data.userId + " RoomID : " + data.roomId);
     index = data.index;
-    tmp = data.roomId;
+    rId = data.roomId;
     await navigator.mediaDevices
         .getUserMedia({
             audio: true,
