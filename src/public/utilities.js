@@ -35,33 +35,37 @@ async function zeroSet(){
   async function verification (face) {
     // Upper Right Eyelid1 오른쪽위 눈꺼풀 
     let URE1 = face[0].scaledMesh[161]; // Upper Right Eyelid1 오른쪽위 눈꺼풀 
-    let URE2 = face[0].scaledMesh[160]; // Upper Right Eyelid2
-    let URE3 = face[0].scaledMesh[159]; // Upper Right Eyelid3
-    let URE4 = face[0].scaledMesh[158]; // Upper Right Eyelid4
-    let URE5 = face[0].scaledMesh[157]; // Upper Right Eyelid5
-
+    let URE2 = face[0].scaledMesh[160]; 
+    let URE3 = face[0].scaledMesh[159]; 
+    let URE4 = face[0].scaledMesh[158]; 
+    let URE5 = face[0].scaledMesh[157];
+ 
     let LRE1 = face[0].scaledMesh[163]; // Lower Right Eyelid1 오른쪽아래 눈꺼풀
-    let LRE2 = face[0].scaledMesh[144]; // Lower Right Eyelid2
-    let LRE3 = face[0].scaledMesh[145]; // Lower Right Eyelid3
-    let LRE4 = face[0].scaledMesh[153]; // Lower Right Eyelid4
-    let LRE5 = face[0].scaledMesh[154]; // Lower Right Eyelid5
-
+    let LRE2 = face[0].scaledMesh[144]; 
+    let LRECENTER = face[0].scaledMesh[145];  //★
+    let LRE4 = face[0].scaledMesh[153]; 
+    let LRE5 = face[0].scaledMesh[154]; 
+ 
     let ULE1 = face[0].scaledMesh[384]; // Upper Left Eyelid1 왼쪽위 눈꺼풀
-    let ULE2 = face[0].scaledMesh[385]; // Upper Left Eyelid2
-    let ULE3 = face[0].scaledMesh[386]; // Upper Left Eyelid3
-    let ULE4 = face[0].scaledMesh[387]; // Upper Left Eyelid4
-    let ULE5 = face[0].scaledMesh[388]; // Upper Left Eyelid5
+    let ULE2 = face[0].scaledMesh[385]; 
+    let ULE3 = face[0].scaledMesh[386];
+    let ULE4 = face[0].scaledMesh[387]; 
+    let ULE5 = face[0].scaledMesh[388]; 
     
-    let LLE1 = face[0].scaledMesh[381]; // Lower Left Eyelid5 왼쪽아래 눈꺼풀
-    let LLE2 = face[0].scaledMesh[380]; // Lower Left Eyelid5
-    let LLE3 = face[0].scaledMesh[374]; // Lower Left Eyelid5
-    let LLE4 = face[0].scaledMesh[373]; // Lower Left Eyelid5
-    let LLE5 = face[0].scaledMesh[390]; // Lower Left Eyelid5
-    let RightEyelidDiff = [((URE1[0] + URE2[0] + URE3[0] + URE4[0] + URE5[0]) / 5) - ((LRE1[0] + LRE2[0] + LRE3[0] + LRE4[0] + LRE5[0]) / 5), 
-                           ((URE1[1] + URE2[1] + URE3[1] + URE4[1] + URE5[1]) / 5) - ((LRE1[1] + LRE2[1] + LRE3[1] + LRE4[1] + LRE5[1]) / 5)]; 
-                      
-    let LeftEyelidDiff = [((ULE1[0] + ULE2[0] + ULE3[0] + ULE4[0] + ULE5[0]) / 5) - ((LLE1[0] + LLE2[0] + LLE3[0] + LLE4[0] + LLE5[0]) / 5), 
-                          ((ULE1[0] + ULE2[0] + ULE3[0] + ULE4[0] + ULE5[0]) / 5) - ((LLE1[0] + LLE2[0] + LLE3[0] + LLE4[0] + LLE5[0]) / 5)];
+    let LLE1 = face[0].scaledMesh[381]; // Lower Left Eyelid1 왼쪽아래 눈꺼풀
+    let LLE2 = face[0].scaledMesh[380]; 
+    let LLECENTER = face[0].scaledMesh[374];  //★
+    let LLE4 = face[0].scaledMesh[373]; 
+    let LLE5 = face[0].scaledMesh[390];
+    //--------------------------------------------------------------//
+    let RightEyelidDiff = [((URE1[0] + URE2[0] + URE3[0] + URE4[0] + URE5[0]) / 5) - ((LRE1[0] + LRE2[0] + LRECENTER[0] + LRE4[0] + LRE5[0]) / 5), 
+                          ((URE1[1] + URE2[1] + URE3[1] + URE4[1] + URE5[1]) / 5) - ((LRE1[1] + LRE2[1] + LRECENTER[1] + LRE4[1] + LRE5[1]) / 5)]; 
+                     
+   let LeftEyelidDiff = [((ULE1[0] + ULE2[0] + ULE3[0] + ULE4[0] + ULE5[0]) / 5) - ((LLE1[0] + LLE2[0] + LLECENTER[0] + LLE4[0] + LLE5[0]) / 5), 
+                         ((ULE1[1] + ULE2[1] + ULE3[1] + ULE4[1] + ULE5[0]) / 5) - ((LLE1[1] + LLE2[1] + LLECENTER[1] + LLE4[1] + LLE5[1]) / 5)];
+   let EyelidDiff = (RightEyelidDiff[1] + LeftEyelidDiff[1]) * -1;
+
+   let eyelidToPupillDis = (((RPC[1] - LRECENTER[1]) + (LPC[1] - LLECENTER[1])) / 2) * -1;
 
     //---------------------------------------------------------//
     let RPC = face[0].scaledMesh[473]; // Right pupil center
@@ -101,7 +105,7 @@ async function zeroSet(){
 
    let LRE1 = face[0].scaledMesh[163]; // Lower Right Eyelid1 오른쪽아래 눈꺼풀
    let LRE2 = face[0].scaledMesh[144]; 
-   let LRE3 = face[0].scaledMesh[145]; 
+   let LRECENTER = face[0].scaledMesh[145];  //★
    let LRE4 = face[0].scaledMesh[153]; 
    let LRE5 = face[0].scaledMesh[154]; 
 
@@ -113,15 +117,18 @@ async function zeroSet(){
    
    let LLE1 = face[0].scaledMesh[381]; // Lower Left Eyelid1 왼쪽아래 눈꺼풀
    let LLE2 = face[0].scaledMesh[380]; 
-   let LLE3 = face[0].scaledMesh[374]; 
+   let LLECENTER = face[0].scaledMesh[374];  //★
    let LLE4 = face[0].scaledMesh[373]; 
    let LLE5 = face[0].scaledMesh[390];
-   let RightEyelidDiff = [((URE1[0] + URE2[0] + URE3[0] + URE4[0] + URE5[0]) / 5) - ((LRE1[0] + LRE2[0] + LRE3[0] + LRE4[0] + LRE5[0]) / 5), 
-                          ((URE1[1] + URE2[1] + URE3[1] + URE4[1] + URE5[1]) / 5) - ((LRE1[1] + LRE2[1] + LRE3[1] + LRE4[1] + LRE5[1]) / 5)]; 
-                     
-   let LeftEyelidDiff = [((ULE1[0] + ULE2[0] + ULE3[0] + ULE4[0] + ULE5[0]) / 5) - ((LLE1[0] + LLE2[0] + LLE3[0] + LLE4[0] + LLE5[0]) / 5), 
-                         ((ULE1[1] + ULE2[1] + ULE3[1] + ULE4[1] + ULE5[0]) / 5) - ((LLE1[1] + LLE2[1] + LLE3[1] + LLE4[1] + LLE5[1]) / 5)];
 
+   let RightEyelidDiff = [((URE1[0] + URE2[0] + URE3[0] + URE4[0] + URE5[0]) / 5) - ((LRE1[0] + LRE2[0] + LRECENTER[0] + LRE4[0] + LRE5[0]) / 5), 
+                          ((URE1[1] + URE2[1] + URE3[1] + URE4[1] + URE5[1]) / 5) - ((LRE1[1] + LRE2[1] + LRECENTER[1] + LRE4[1] + LRE5[1]) / 5)]; 
+                     
+   let LeftEyelidDiff = [((ULE1[0] + ULE2[0] + ULE3[0] + ULE4[0] + ULE5[0]) / 5) - ((LLE1[0] + LLE2[0] + LLECENTER[0] + LLE4[0] + LLE5[0]) / 5), 
+                         ((ULE1[1] + ULE2[1] + ULE3[1] + ULE4[1] + ULE5[0]) / 5) - ((LLE1[1] + LLE2[1] + LLECENTER[1] + LLE4[1] + LLE5[1]) / 5)];
+   let EyelidDiff = (RightEyelidDiff[1] + LeftEyelidDiff[1]) * -1;
+
+ 
 //---------------------------------------------------------------------------------------------------//
     let RPC = face[0].scaledMesh[473];
     let LPC = face[0].scaledMesh[468];
@@ -135,6 +142,8 @@ async function zeroSet(){
 
     let LEC = [(LE2[0] + LE4[0]) / 2, (LE2[1] + LE4[1]) / 2]
     let REC = [(RE2[0] + RE4[0]) / 2, (RE2[1] + RE4[1]) / 2]
+
+    let eyelidToPupillDis = (((RPC[1] - LRECENTER[1]) + (LPC[1] - LLECENTER[1])) / 2) * -1;
     //let LPD = [eyelid[1] - LPC[1]];                                  // pupill to eyelid distance
    // let RPD = [eyelid[1] - RPC[1]]; 
     //-----------------------------------------------------------------//
@@ -145,7 +154,7 @@ async function zeroSet(){
     let faceBottom = face[0].scaledMesh[152];
     let faceNose = face[0].scaledMesh[1]; 
     let faceMouth = face[0].scaledMesh[0]; 
-    totalScore = totalScore + detectPupil(LEC, REC, LPC, RPC, LeftEyelidDiff, RightEyelidDiff);
+    totalScore = totalScore + detectPupil(LEC, REC, LPC, RPC, EyelidDiff, eyelidToPupillDis );
     totalScore = totalScore + faceAngle(faceLeft, faceRight, faceTop, faceBottom);
     console.log(totalScore);
   }
@@ -185,9 +194,15 @@ async function zeroSet(){
     return returnScore;
 
   }
-  const detectPupil = (LEC, REC, LPC, RPC, LeftEyelidDiff, RightEyelidDiff) => {
-
+  const detectPupil = (LEC, REC, LPC, RPC, EyelidDiff, eyelidToPupillDis) => {
     //console.log("EyelidDiff "+(LeftEyelidDiff[1]+RightEyelidDiff[1]));
+
+    //위 바라보는지 판단
+    console.log("eyelidToPupillDis!: "+eyelidToPupillDis);
+    //아래 바라보는지 판단
+    console.log("EyelidDiff!: "+EyelidDiff);
+    //---------------------------------------------------------//
+
     let leftEyeXDiff = LPC[0] - LEC[0];
     let leftEyeYDiff = LPC[1] - LEC[1];
 
@@ -203,23 +218,24 @@ async function zeroSet(){
         console.log("eye left");
         returnScore = 2.5;
 
-    } else {
-        //console.log(leftEyeYDiff+rightEyeYDiff);
-        console.log("eye center");
-        returnScore = -0.5;
-    }
-                                          
-    if (((leftEyeYDiff + rightEyeYDiff)* -1) > 15/*storage[1]*/) {
-      console.log(leftEyeYDiff+rightEyeYDiff);
+    } 
+                                     
+     else if (eyelidToPupillDis > 8) {
       console.log("eye up");
       returnScore = 2.5;
+     }
+
+    else if (EyelidDiff < -10) {
+      console.log(EyelidDiff);
+      console.log("eye down");
+      returnScore = 1.5;
     }
 
-    else if (LeftEyelidDiff[1]+RightEyelidDiff[1] > 8) {
-      console.log(leftEyeYDiff+rightEyeYDiff);
-      console.log("eye down");
-      returnScore = 2.5;
-    }
+    else {
+      //console.log(leftEyeYDiff+rightEyeYDiff);
+      console.log("eye center");
+      returnScore = -0.5;
+  }
     return returnScore;
 }
 
