@@ -1,13 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+    <script>
+        let userInfo = "<%=JSON.stringify(userInfo)%>";
+    </script>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OnGamDock-student</title>
     <link rel="stylesheet" href="https://unpkg.com/mvp.css">
-    
+
+    <style type="text/css">
+        .invisible {
+            display: none;
+        }
+    </style>
 </head>
+
 <body>
     <header>ONGAMDOCK</header>
     <main>
@@ -16,21 +26,24 @@
             <video id="screen-share" autoplay playsinline width="400" height="400 muted"></video>
         </div>
         <div id="streams"></div>
-        <div>
-            <button id="student">student</button>
-            <button id="professor">professor</button>
-            <button id="eyeTracking" onClick="location.href='eyeTracking'">eyeTracking</button>
+        <div id="enter-div">
+            <form class="enter-form">
+                <input class="txt" id="room-number" type="text" placeholder="방 번호를 입력해주세요" />
+                <p id="button">입장하기</p>
+            </form>
         </div>
+        <p class="invisible" id="ejs-name"><%=userInfo.name%></p>
+        <p class="invisible" id="ejs-type"><%=userInfo.type%></p>
     </main>
 
 
-    
+
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
     <script src="/public/user.js"></script>
     <script src="/public/TRIANGULATION.js"></script>
     <script src="/public/utilities.js"></script>
-    
+
 
     <!-- Require the peer dependencies of face-landmarks-detection. -->
     <script src="https://unpkg.com/@tensorflow/tfjs-core@2.4.0/dist/tf-core.js"></script>
@@ -41,8 +54,10 @@
     <!-- Alternatively you can use the WASM backend: <script src="https://unpkg.com/@tensorflow/tfjs-backend-wasm@2.4.0/dist/tf-backend-wasm.js"></script> -->
 
     <!-- Require face-landmarks-detection itself. -->
-    <script src="https://unpkg.com/@tensorflow-models/face-landmarks-detection@0.0.1/dist/face-landmarks-detection.js"></script>
+    <script
+        src="https://unpkg.com/@tensorflow-models/face-landmarks-detection@0.0.1/dist/face-landmarks-detection.js"></script>
     <!--<script src="https://unpkg.com/@tensorflow-models/face-landmarks-detection/dist/face-landmarks-detection.js"></script>-->
     <script src="/public/ui.js"></script>
 </body>
+
 </html>
