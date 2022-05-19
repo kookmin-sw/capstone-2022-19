@@ -15,7 +15,7 @@ const btnStudent = document.getElementById("student");
 let receivePC;
 let myStream;
 
-
+  
 btnProfessor.addEventListener("click", handleProfessorBtn);
 
 
@@ -84,3 +84,6 @@ function handleAddStream(data) {
     peerStream.srcObject = data.stream;
     streams.appendChild(peerStream);
 }
+
+
+

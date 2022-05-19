@@ -84,7 +84,6 @@ async function zeroSet(){
     
     eyeXDiffSum = eyeXDiffSum + (LPC[0]-LEC[0]) + (RPC[0] - REC[0]); //LeftEyeXDiffSum + RightEyeXDiffSum == eyeXDiffSum  
     eyeYDiffSum = eyeYDiffSum + (LPC[1] - LEC[1]) + (RPC[1] - REC[1]);  
-    console.log("더해지는거"+eyeYDiffSum);
     cycle++;
     return ({eyeXDiffSum,eyeYDiffSum});
     //console.log(leftEyeXDiffSum,leftEyeYDiffSum);
@@ -93,9 +92,9 @@ async function zeroSet(){
 
 
 
-   const facePoint = (face) =>{
+   async function facePoint(face){
 
-
+    try {
    // Upper Right Eyelid1 오른쪽위 눈꺼풀 
    let URE1 = face[0].scaledMesh[161]; // Upper Right Eyelid1 오른쪽위 눈꺼풀 
    let URE2 = face[0].scaledMesh[160]; 
@@ -156,9 +155,28 @@ async function zeroSet(){
     let faceMouth = face[0].scaledMesh[0]; 
     totalScore = totalScore + detectPupil(LEC, REC, LPC, RPC, EyelidDiff, eyelidToPupillDis );
     totalScore = totalScore + faceAngle(faceLeft, faceRight, faceTop, faceBottom);
+    cheatFace(face);
+    //faceDisConnection()
+
     console.log(totalScore);
   }
-
+  catch(err){
+    if (err.name == "TypeError"){
+      console.log("얼굴 미검출, 자리이동 의심");
+    }
+    /*
+    else if (err.name == "ReferenceError"){
+      console.log("얼굴이 2개이상 검출 됐습니다");
+    }
+    */
+  }
+  
+}
+  const cheatFace = (face) => {
+    if(face.length != 1){
+      console.log("얼굴이 2개 이상 검출됐습니다.")
+    } 
+  }
 
   const faceAngle = (faceLeft, faceRight, faceTop, faceBottom ) => {
     let returnScore = 0;
@@ -219,7 +237,7 @@ async function zeroSet(){
         returnScore = 2.5;
 
     } 
-                                     
+                                   
      else if (eyelidToPupillDis > 8) {
       console.log("eye up");
       returnScore = 2.5;
