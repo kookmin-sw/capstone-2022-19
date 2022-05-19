@@ -1,12 +1,6 @@
 
 let model ; 
-let i= -1;
-let isStop = false;
-let playing ;
-let timeValue;
-let retValue;
-let start = new Date();
-let end = new Date();
+
     async function runModel(){
     model = await faceLandmarksDetection.load(faceLandmarksDetection.SupportedPackages.mediapipeFacemesh);
     }
@@ -16,9 +10,9 @@ let end = new Date();
        
         const face =  await model.estimateFaces({
             input:localvideo,
-            returnTensors: false,
+            returnTensors: false, //default
             flipHorizontal: false,
-            predictIrises: true
+            predictIrises: true // default
         });
     
         facePoint(face);
@@ -29,9 +23,8 @@ let end = new Date();
     async function initialTest(localvideo){
         const face = await model.estimateFaces({
             input:localvideo,
-            returnTensors: false,
-            flipHorizontal: false,
-            predictIrises: true
+            flipHorizontal: false
+      
         });
          let value = await verification(face);
 
@@ -44,10 +37,10 @@ let end = new Date();
     
     async function runInitialTest(localvideo){
         let j = 0;
-        timeValue= setInterval(() => {
+        let timeValue= setInterval(() => {
                 if(j == 50){
                     clearInterval(timeValue);
-                    retValue = returnValue();
+                    let retValue = returnValue();
                     console.log(retValue);
                     zeroSet();
                  }
