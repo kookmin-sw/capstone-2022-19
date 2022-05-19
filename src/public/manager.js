@@ -23,7 +23,7 @@ let receivePC;
 let myStream;
 
 let cntStudent = 0;
-let studentId = {};
+let studentData = {};
 
 btnProfessor.addEventListener("click", handleProfessorBtn);
 
@@ -32,7 +32,7 @@ function handleProfessorBtn(event) {
     console.log("ProfessorBtn click");
     roomId = roomNumber.value;
     console.log(roomId);
-    let data = { roomId: roomId, userId: socket.id };
+    let data = { roomId: roomId, userId: socket.id, type: type, name: name};
     socket.emit("professorJoin", data);
 }
 
@@ -53,10 +53,11 @@ socket.on("alreadyExist", () => {
 socket.on("reqAnswer", async (offer, data) => {
     cntStudent = cntStudent+1;
 
-    studentId[data.userId] = {
+    studentData[data.userId] = {
         userId: data.userId, 
         username: data.username, 
-        userIndex: cntStudent
+        userIndex: cntStudent,
+        streamIndex: cntStudent
     };
 
     makeForm(cntStudent, data.userName);
@@ -90,6 +91,16 @@ socket.on("stuIceArrived", (candidate, data) => {
     console.log("student's ICE Arrived");
     let icecandidate = new RTCIceCandidate(candidate);
     receivePC.addIceCandidate(icecandidate);
+})
+
+socket.on("studentLeft", (userId) =>{
+    const info = studentData[userId];
+    console.log(info);
+    
+    const streams = document.getElementById("streams");
+    const userStream = document.getElementById(info.userIndex);
+    
+    streams.removeChild(userStream);
 })
 
 

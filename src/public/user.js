@@ -32,7 +32,7 @@ btnStudent.addEventListener("click", handleStudentBtn);
 function handleStudentBtn(event) {
     console.log(`${type} ${userName} click`);
     roomId = roomNumber.value;
-    let data = { roomId: roomId, userId: socket.id, userName : userName};
+    let data = { roomId: roomId, userId: socket.id, userName : userName, type: type};
     socket.emit("studentJoin", data);
 }
 
@@ -98,3 +98,7 @@ socket.on("noRoom", () => {
     alert("아직 방이 만들어지지 않았습니다.");
 })
 
+
+socket.on("professorLeft", ()=>{
+    console.log("professor has left");
+})

@@ -23,6 +23,7 @@ let iceServers = {
 
 //routing
 const routing = require("./routes/router");
+const { collection } = require("firebase/firestore");
 
 
 
@@ -43,8 +44,8 @@ app.use("/", routing);
 
 
 let room_chk = {};
-let rooms = {};
 let room_manager = {};
+let userData = {};
 
 
 //socket code
@@ -59,19 +60,23 @@ io.on("connection", (socket) => {
     socket.on("professorJoin", (data) => {
         let roomId = data.roomId;
         let userId = data.userId;
-        console.log(`professor : ${userId} joined ${roomId} `);
+        console.log(`professor : ${data.userName}(${userId}) joined ${roomId} `);
 
         if (room_chk[roomId] === true) {
-            console.log("This room already exist");
+            console.log(`${data.userName}${data.type} failed to make room(${roomId})`);
             socket.emit("alreadyExist");
         } else{
-            rooms[roomId] = {};
+            userData[userId] = {
+                userName: data.name,
+                roomId : data.roomId,
+                type: data.type
+            }
             room_chk[roomId] = true;
             room_manager[roomId] = socket.id;
             socket.join(roomId);
             socket.emit('createRoom', data);
         }
-        console.log(rooms[roomId]);
+        console.log(userData[socket.id]);
     });
 
 
@@ -82,25 +87,27 @@ io.on("connection", (socket) => {
         let userId = data.userId;
         let userName = data.userName;
 
-        console.log(`userName : ${data.userName}`);
         console.log(`Student : ${userName} (${userId}) joined `);
 
         if (room_chk[roomId] === true) {
-            rooms[roomId][userId] = {username : userName};
+            userData[userId] = {
+                userName: data.userName,
+                roomId: data.roomId,
+                type: data.type
+            }
             socket.join(roomId);
             socket.emit('joinRoom', data);
 
         } else{
-            console.log("This room doesn't exist");
+            console.log(`${data.userName}${data.type} failed to enter room(${roomId})`);
             socket.emit("noRoom");
         }
 
-        console.log(rooms[roomId]);
+        console.log(userData[socket.id]);
     })
 
     //학생 >> 교수
     socket.on("studentSendIce", (candidate, data) => {
-        console.log(` room manager : ${room_manager[data.roomId]}`);
         socket.to(room_manager[data.roomId]).emit("stuIceArrived", candidate, data);
     })
 
@@ -110,12 +117,25 @@ io.on("connection", (socket) => {
     
     // 교수 >> 학생
     socket.on("professorSendIce", (candidate, data) => {
-        console.log(`professor send ICE to ${data.userId}`);
         socket.to(data.userId).emit("proIceArrived", candidate, data);
     })
 
     socket.on("sendAnswer", (answer, data) => {
         socket.to(data.userId).emit("answerArrived", answer, data);
+    })
+
+    socket.on("disconnect", ()=>{
+        console.log("SOCKETIO disconnect EVENT: ", socket.id, " client disconnect");
+        const roomId = userData[socket.id].roomId;
+        const userName = userData[socket.id].userName;
+        const type = userData[socket.id].type;
+        const userId = socket.id;
+
+        if(type === "student"){
+            socket.to(room_manager[roomId]).emit("studentLeft", userId);
+        }else{
+            socket.broadcast.to(roomId).emit("professorLeft");
+        }
     })
 
 })
