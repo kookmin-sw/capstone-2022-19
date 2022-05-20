@@ -9,20 +9,30 @@ let iceServers = {
 
 const localvideo = document.getElementById("localvideo");
 const streams = document.getElementById("streams");
-const btnProfessor = document.getElementById("professor");
-const btnStudent = document.getElementById("student");
+const btnProfessor = document.getElementById("button");
+const roomNumber = document.getElementById("room-number");
+
+const ejsName = document.getElementById("ejs-name");
+const ejsType = document.getElementById("ejs-type");
+
+const name = ejsName.innerText;
+const type = ejsType.innerText;
+
 
 let receivePC;
 let myStream;
 
+let cntStudent = 0;
+let studentData = {};
 
 btnProfessor.addEventListener("click", handleProfessorBtn);
 
 
 function handleProfessorBtn(event) {
     console.log("ProfessorBtn click");
-    roomId = '1';
-    let data = { roomId: roomId, userId: socket.id };
+    roomId = roomNumber.value;
+    console.log(roomId);
+    let data = { roomId: roomId, userId: socket.id, type: type, name: name};
     socket.emit("professorJoin", data);
 }
 
@@ -30,7 +40,6 @@ function handleProfessorBtn(event) {
 //professor
 socket.on("createRoom", async (data) => {
     console.log("Create : " + data.userId + " RoomID : " + data.roomId);
-
 })
 
 
@@ -42,9 +51,21 @@ socket.on("alreadyExist", () => {
 
 
 socket.on("reqAnswer", async (offer, data) => {
+    cntStudent = cntStudent+1;
+
+    studentData[data.userId] = {
+        userId: data.userId, 
+        username: data.username, 
+        userIndex: cntStudent,
+        streamIndex: cntStudent
+    };
+
+    makeForm(cntStudent, data.userName);
+
     receivePC = new RTCPeerConnection(iceServers);
     receivePC.onicecandidate = event => {
         if (event.candidate) {
+            console.log("professor sned ICE");
             socket.emit("professorSendIce", event.candidate, data);
         }
     };
@@ -67,18 +88,39 @@ socket.on("reqAnswer", async (offer, data) => {
 
 
 socket.on("stuIceArrived", (candidate, data) => {
+    console.log("student's ICE Arrived");
     let icecandidate = new RTCIceCandidate(candidate);
     receivePC.addIceCandidate(icecandidate);
 })
 
+socket.on("studentLeft", (userId) =>{
+    const info = studentData[userId];
+    console.log(info);
+    
+    const streams = document.getElementById("streams");
+    const userStream = document.getElementById(info.userIndex);
+    
+    streams.removeChild(userStream);
+})
 
+
+function makeForm(idx, userName){
+    const stream = document.getElementById("streams");
+    const peerDiv = document.createElement("div");
+    peerDiv.id = idx;
+    streams.appendChild(peerDiv);
+    const nameTag = document.createElement("p");
+    nameTag.innerText = userName;
+    peerDiv.appendChild(nameTag);
+
+}
 
 function handleAddStream(data) {
-    console.log("동영상 띄운다!");
-    const streams = document.getElementById("streams");
+    console.log(data);
+    const streams = document.getElementById(cntStudent);
     const peerStream = document.createElement("video");
-    peerStream.width = "400";
-    peerStream.height = "400";
+    peerStream.width = "200";
+    peerStream.height = "200";
     peerStream.autoplay = true;
     peerStream.playsinline = true;
     peerStream.srcObject = data.stream;

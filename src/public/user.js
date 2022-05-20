@@ -1,3 +1,4 @@
+
 const socket = io();
 
 
@@ -11,22 +12,27 @@ let iceServers = {
 const localvideo = document.getElementById("localvideo");
 const screenSharevideo = document.getElementById("screen-share");
 const streams = document.getElementById("streams");
-const btnProfessor = document.getElementById("professor");
-const btnStudent = document.getElementById("student");
+const btnStudent = document.getElementById("button");
+const roomNumber = document.getElementById("room-number");
+
+const ejsName = document.getElementById("ejs-name");
+const ejsType = document.getElementById("ejs-type");
+
+const userName = ejsName.innerText;
+const type = ejsType.innerText;
 
 
 let sendPC;
 let myStream;
 let screenShare;
-let index;
-let tmp;
+
 
 btnStudent.addEventListener("click", handleStudentBtn);
 
 function handleStudentBtn(event) {
-    console.log("StudentBtn click");
-    roomId = '1';
-    let data = { roomId: roomId, userId: socket.id };
+    console.log(`${type} ${userName} click`);
+    roomId = roomNumber.value;
+    let data = { roomId: roomId, userId: socket.id, userName : userName, type: type};
     socket.emit("studentJoin", data);
 }
 
@@ -36,8 +42,6 @@ function handleStudentBtn(event) {
 //student
 socket.on("joinRoom", async (data) => {
     console.log("Join : " + data.userId + " RoomID : " + data.roomId);
-    index = data.index;
-    tmp = data.roomId;
     await navigator.mediaDevices
         .getUserMedia({
             audio: true,
@@ -75,12 +79,14 @@ socket.on("joinRoom", async (data) => {
 
 })
 
+
 socket.on("answerArrived", async (answer, data) => {
     console.log("professor cadidate arrived");
     await sendPC.setRemoteDescription(answer);
 })
 
 socket.on("proIceArrived", (candidate, data) => {
+    console.log(`professor's ICE arrived`);
     let icecandidate = new RTCIceCandidate(candidate);
     sendPC.addIceCandidate(icecandidate);
 })
@@ -92,3 +98,7 @@ socket.on("noRoom", () => {
     alert("아직 방이 만들어지지 않았습니다.");
 })
 
+
+socket.on("professorLeft", ()=>{
+    console.log("professor has left");
+})
