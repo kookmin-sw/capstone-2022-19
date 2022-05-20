@@ -64,3 +64,14 @@
     right: 0;
     margin: auto;
 }
+
+.try {
+    color: black;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 10;
+    background: white;
+    width: 200px;
+}

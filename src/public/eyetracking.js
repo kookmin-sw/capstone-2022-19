@@ -1,9 +1,10 @@
 const eyeTrackingStartButton = document.getElementById("startBtn");
 const videoEl = document.getElementById("video");
 
-let count = 0;
-let an ;
-let arr = ['상단', '중앙', '하단', '좌측', '우측'];
+let count = -1;
+let arr = ['상단', '중앙', '하단', '좌측', '우측', '을 바라보세요'];
+let word = ["topWord", "centerWord", "bottomWord", "leftWord", "rightWord",]
+let try_num = 5;
 let animal = ['캥거루', '토끼' ,'강아지', '고양이', '코알라', '고릴라', '원숭이', '고래', '낙타', '뱀', 
 '물개', '쥐', '소', '말', '돼지', '거북이', '악어', '호랑이', '표범', '치타',
 '늑대', '여우', '스컹크', '두더지', '돌고래', '도마뱀', '독소리', '바다표범', '가재',
@@ -20,40 +21,17 @@ function inputAnimal(){
 
 }
 eyeTrackingStartButton.addEventListener('click', async function(){
-    if(count === 0){
-    alert(arr[count]+"을 바라보세요",);
-    document.getElementById("topWord").innerHTML=animal[(Math.floor(Math.random() * 50))];
-    runInitialTest(videoEl);
-   
-    }
-    /*
-    else if(count === 1){
-        alert(arr[count]+"을 바라보세요");
-        document.getElementById("centerWord").innerHTML=animal[(Math.floor(Math.random() * 50))];
-        runInitialTest(videoEl)
-        }
-
-    else if(count === 2){
-        alert(arr[count]+"을 바라보세요");
-        document.getElementById("bottomWord").innerHTML=animal[(Math.floor(Math.random() * 50))];
-        runInitialTest(videoEl)
-        }
-
-
-    else if(count === 3){
-        alert(arr[count]+"을 바라보세요");
-        document.getElementById("leftWord").innerHTML=animal[(Math.floor(Math.random() * 50))];
-        runInitialTest(videoEl)
-        }
-
-    
-    else if(count === 4){
-        alert(arr[count]+"을 바라보세요");
-        document.getElementById("rightWord").innerHTML=animal[(Math.floor(Math.random() * 50))];
-        runInitialTest(videoEl)
-        }
-    */
+    document.getElementById("try").innerHTML="시도해야할 횟수: "+((--try_num).toString());
     count++;
+    console.log("count"+count);
+    alert(arr[count]+arr[arr.length-1]);
+    document.getElementById(word[count]).innerHTML=animal[(Math.floor(Math.random() * 50))];
+    runInitialTest(videoEl);
+    setTimeout(function() {
+    inputAnimal();
+
+}, 12000);
+   
 }
 
 );

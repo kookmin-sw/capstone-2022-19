@@ -25,7 +25,12 @@ const type = ejsType.innerText;
 let sendPC;
 let myStream;
 let screenShare;
+<<<<<<< HEAD
+let index;
+let rId;
+=======
 
+>>>>>>> a6e0eb249c18b4b647b037cedc39cc5657894949
 
 btnStudent.addEventListener("click", handleStudentBtn);
 
@@ -42,6 +47,11 @@ function handleStudentBtn(event) {
 //student
 socket.on("joinRoom", async (data) => {
     console.log("Join : " + data.userId + " RoomID : " + data.roomId);
+<<<<<<< HEAD
+    index = data.index;
+    rId = data.roomId;
+=======
+>>>>>>> a6e0eb249c18b4b647b037cedc39cc5657894949
     await navigator.mediaDevices
         .getUserMedia({
             audio: true,
