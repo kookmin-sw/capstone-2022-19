@@ -22,13 +22,9 @@ const type = ejsType.innerText;
 let receivePC;
 let myStream;
 
-<<<<<<< HEAD
-  
-=======
 let cntStudent = 0;
 let studentData = {};
 
->>>>>>> a6e0eb249c18b4b647b037cedc39cc5657894949
 btnProfessor.addEventListener("click", handleProfessorBtn);
 
 
