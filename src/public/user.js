@@ -12,8 +12,9 @@ let iceServers = {
 const localvideo = document.getElementById("localvideo");
 const screenSharevideo = document.getElementById("screen-share");
 const streams = document.getElementById("streams");
-const btnStudent = document.getElementById("button");
+const btnStudent = document.getElementById("student");
 const roomNumber = document.getElementById("room-number");
+const msgInput = document.getElementById("chat_message");
 
 const ejsName = document.getElementById("ejs-name");
 const ejsType = document.getElementById("ejs-type");
@@ -21,28 +22,49 @@ const ejsType = document.getElementById("ejs-type");
 const userName = ejsName.innerText;
 const type = ejsType.innerText;
 
+const page1 = document.getElementById("page1");
+const page2 = document.getElementById("page2");
+
 
 let sendPC;
 let myStream;
 let screenShare;
 let index;
 let rId;
+<<<<<<< HEAD
 
+=======
+>>>>>>> 81c6338eeda6d3d7d2be2047e28303bafc138d91
 
 btnStudent.addEventListener("click", handleStudentBtn);
+
+function visible(){
+  page1.style.display = "none";
+  page2.style.display = "block";
+}
 
 function handleStudentBtn(event) {
     console.log(`${type} ${userName} click`);
     roomId = roomNumber.value;
-    let data = { roomId: roomId, userId: socket.id, userName : userName, type: type};
+    let data = { roomId: roomId, userId: socket.id, userName: userName, type: type };
     socket.emit("studentJoin", data);
 }
 
 
+function exitRoom(){
+    location.href = "/exit";
+}
+
+function send_chat(){
+    const msg = msgInput.value;
+    msgInput.value = "";
+    socket.emit("send_msg",msg);
+}
 
 
 //student
 socket.on("joinRoom", async (data) => {
+    visible();
     console.log("Join : " + data.userId + " RoomID : " + data.roomId);
     index = data.index;
     rId = data.roomId;
@@ -105,4 +127,6 @@ socket.on("noRoom", () => {
 
 socket.on("professorLeft", ()=>{
     console.log("professor has left");
+    alert("시험이 종료되었습니다");
+    exitRoom();
 })
