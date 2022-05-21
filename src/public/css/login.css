@@ -1,7 +1,14 @@
 /* Copyright (c) 2022 by Aigars Silkalns (https://codepen.io/colorlib/pen/rxddKy) */
 
 @import url(https://fonts.googleapis.com/css?family=Roboto:300);
-
+.logo{
+  margin-top : 30px;
+}
+.title {
+  font-family: "Roboto", sans-serif;
+  color: #FFFFFF;
+  font-size : 25px;
+}
 .login-page {
   width: 360px;
   padding: 8% 0 0;
@@ -12,7 +19,7 @@
   z-index: 1;
   background: #FFFFFF;
   max-width: 360px;
-  margin: 0 auto 100px;
+  margin: -100px auto 100px;
   padding: 45px;
   text-align: center;
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
