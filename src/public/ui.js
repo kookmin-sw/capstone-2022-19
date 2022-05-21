@@ -56,6 +56,7 @@ let model ;
 
 
     localvideo.onloadeddata = function(){
+        console.log("hihihi");
         runcheckscore(localvideo, rId);
         //runInitialTest(localvideo, tmp);
         setTimeout(function(){
