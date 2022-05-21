@@ -9,36 +9,51 @@ let iceServers = {
 
 const localvideo = document.getElementById("localvideo");
 const streams = document.getElementById("streams");
-const btnProfessor = document.getElementById("button");
+const btnProfessor = document.getElementById("professor");
 const roomNumber = document.getElementById("room-number");
+const welcome = document.getElementById("welcome");
 
 const ejsName = document.getElementById("ejs-name");
 const ejsType = document.getElementById("ejs-type");
+
+const page1 = document.getElementById("page1");
+const page2 = document.getElementById("page2");
 
 const name = ejsName.innerText;
 const type = ejsType.innerText;
 
 
 let receivePC;
-let myStream;
-
 let cntStudent = 0;
 let studentData = {};
 
 btnProfessor.addEventListener("click", handleProfessorBtn);
 
+function visible() {
+    page1.style.display = "none";
+    page2.style.display = "block";
+}
+
 
 function handleProfessorBtn(event) {
     console.log("ProfessorBtn click");
+    if(roomNumber.value === ""){
+        alert("방 번호를 입력해주세요");
+        return ;
+    }
     roomId = roomNumber.value;
-    console.log(roomId);
-    let data = { roomId: roomId, userId: socket.id, type: type, name: name};
+    let data = { roomId: roomId, userId: socket.id, type: type, name: name };
     socket.emit("professorJoin", data);
+}
+
+function exitRoom() {
+    location.href = "/exit";
 }
 
 
 //professor
 socket.on("createRoom", async (data) => {
+    visible();
     console.log("Create : " + data.userId + " RoomID : " + data.roomId);
 })
 
@@ -51,11 +66,11 @@ socket.on("alreadyExist", () => {
 
 
 socket.on("reqAnswer", async (offer, data) => {
-    cntStudent = cntStudent+1;
+    cntStudent = cntStudent + 1;
 
     studentData[data.userId] = {
-        userId: data.userId, 
-        username: data.username, 
+        userId: data.userId,
+        username: data.username,
         userIndex: cntStudent,
         streamIndex: cntStudent
     };
@@ -93,19 +108,19 @@ socket.on("stuIceArrived", (candidate, data) => {
     receivePC.addIceCandidate(icecandidate);
 })
 
-socket.on("studentLeft", (userId) =>{
+socket.on("studentLeft", (userId) => {
     const info = studentData[userId];
     console.log(info);
-    
+
     const streams = document.getElementById("streams");
     const userStream = document.getElementById(info.userIndex);
-    
+
     streams.removeChild(userStream);
 })
 
 
-function makeForm(idx, userName){
-    const stream = document.getElementById("streams");
+function makeForm(idx, userName) {
+    const streams = document.getElementById("streams");
     const peerDiv = document.createElement("div");
     peerDiv.id = idx;
     streams.appendChild(peerDiv);

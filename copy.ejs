@@ -31,6 +31,7 @@
                         <p> 반갑습니다
                         <p><%=userInfo.name%> 교수님
                     </div>
+                    <div id="streams"></div>
                     <div>
                         <input class="txt" id="room-number" type="text" placeholder="방 번호를 입력해주세요" />
                         <p id="professor">방 만들기</p>
@@ -72,6 +73,7 @@
                             <button id="exit" class="basicBtns" onclick="exitRoom()"><i
                                     class="fas fa-sign-out-alt"></i></button>
                             <!--exit peer connection func bnt-->
+
                         </div>
 
                         <div class=videos id="streams"></div>
@@ -94,13 +96,13 @@
             </div>
             <p class="invisible" id="ejs-name"><%=userInfo.name%></p>
             <p class="invisible" id="ejs-type"><%=userInfo.type%></p>
+            <script src="/socket.io/socket.io.js"></script>
+            <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+            <script src="/public/manager.js"></script>
+            <script src="https://use.fontawesome.com/releases/v5.13.0/js/all.js"></script>
         </article>
     </div>
 
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
-    <script src="/public/manager.js"></script>
-    <script src="https://use.fontawesome.com/releases/v5.13.0/js/all.js"></script>
 </body>
 
 

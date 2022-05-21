@@ -9,34 +9,88 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OnGamDock-student</title>
-    <link rel="stylesheet" href="https://unpkg.com/mvp.css">
-
-    <style type="text/css">
-        .invisible {
-            display: none;
-        }
-    </style>
+    <link rel="stylesheet" href="/public/css/user.css">
 </head>
 
 <body>
-    <header>ONGAMDOCK</header>
-    <main>
-        <div>
-            <video id="localvideo" autoplay playsinline width="400" height="400 muted"></video>
-            <video id="screen-share" autoplay playsinline width="400" height="400 muted"></video>
-        </div>
-        <div id="streams"></div>
-        <div id="enter-div">
-            <form class="enter-form">
-                <input class="txt" id="room-number" type="text" placeholder="방 번호를 입력해주세요" />
-                <p id="button">입장하기</p>
-            </form>
-        </div>
-        <p class="invisible" id="ejs-name"><%=userInfo.name%></p>
-        <p class="invisible" id="ejs-type"><%=userInfo.type%></p>
-    </main>
+    <div id="page1">
+        <div class="logo" style="text-align:center">
 
+            <img src="../public/logo.png" alt="Logo" style="float: center" width="200" height="200" />
+            <header class="title">ONGAMDOCK</header>
+        </div>
+        <div class="user-page">
+            <div class="form">
 
+                <form class="user-form">
+                    <div id='welcome'>
+                        <p> 반갑습니다
+                        <p> <%=userInfo.name%> 학생님
+                    </div>
+                    <div>
+                        <input class="txt" id="room-number" type="text" placeholder="방 번호를 입력해주세요" />
+                        <p id="student">입장하기</p>
+                        <br>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+    <div id="page2" style=" display : none">
+        <article style="background-color:#eff0f2">
+            <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+            </script>
+
+            <table id="rooms-list" class="visible" style="color:white;"></table>
+
+            <div class=non-visual>
+                <!--invisiable in homepage-->
+                <div class="wrapper">
+                    <!--grid UI-->
+
+                    <div id="ale" class="as">
+                        <h3 style="padding: 5%; color: #ffffff;">알림창</h3>
+                        <div class="ale_area" style="height:90%; overFlow-y : scroll; text-align: left;">
+                            <div></div>
+                        </div>
+                    </div>
+                    <div class=content style="overFlow-y : scroll">
+                        <!--remote video-->
+                        <div class="left_nav">
+                            <button id="exit" class="basicBtns" onclick="exitRoom()"><i
+                                    class="fas fa-sign-out-alt"></i></button>
+                            <!--exit peer connection func bnt-->
+
+                        </div>
+
+                        <div class="videos">
+                            <video id="localvideo" autoplay playsinline width="300" height="300 muted"></video>
+                            <video id="screen-share" autoplay playsinline width="300" height="350 muted"></video>
+                        </div>
+                    </div>
+                    <div id="user_info">
+                        <p>구분 : 학생</p>
+                        <p>이름 : <%=userInfo.name%></p>
+                    </div>
+
+                    <div id=chat style="overflow: hidden;">
+                        <div class="massage_area" style="height:87%; overFlow-y : scroll;">
+                            <div style="text-align: right;"></div>
+                        </div>
+                        <div class="text_input_area">
+                            <input type="text" id="chat_message" onkeyup="if(window.event.keyCode==13){send_chat()}"></input><button id="send_btn" onclick="sand_chat()"
+                                style="background-image: 
+                          radial-gradient(ellipse farthest-corner at 0 140%, #b4e29b 0%, #7dd84c 70%, #a9e08b 70%);">전송</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p class="invisible" id="ejs-name"><%=userInfo.name%></p>
+            <p class="invisible" id="ejs-type"><%=userInfo.type%></p>
+        </article>
+    </div>
 
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>

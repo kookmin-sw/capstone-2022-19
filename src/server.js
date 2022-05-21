@@ -126,16 +126,29 @@ io.on("connection", (socket) => {
 
     socket.on("disconnect", ()=>{
         console.log("SOCKETIO disconnect EVENT: ", socket.id, " client disconnect");
+
+        if(userData[socket.id] === undefined){
+            return;
+        }
         const roomId = userData[socket.id].roomId;
         const userName = userData[socket.id].userName;
         const type = userData[socket.id].type;
         const userId = socket.id;
 
+        room_chk[roomId] = false;
+        room_manager[roomId] = null;
+
         if(type === "student"){
+            userData[userId] = null;
             socket.to(room_manager[roomId]).emit("studentLeft", userId);
         }else{
             socket.broadcast.to(roomId).emit("professorLeft");
         }
+    })
+
+    socket.on("send_msg", (msg) =>{
+        console.log(msg);
+        console.log(socket.id);
     })
 
 })
