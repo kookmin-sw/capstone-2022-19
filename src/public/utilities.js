@@ -5,6 +5,7 @@
  const REC = [(keypoints[244][0] + keypoints[226][0]) / 2, (keypoints[244][1] + keypoints[226][1]) / 2];
  const LEC = [(keypoints[446][0] + keypoints[464][0]) / 2, (keypoints[446][1] + keypoints[464][1]) / 2];
 */
+
 let cycle = 0;
 let totalScore = 0 ;
 let storage = new Array();
@@ -18,6 +19,8 @@ let EyelidDiffSum = 0;
 let eyelidToPupillDisSum =0;
 
   async function returnValue(count){
+    console.log(count == 0);
+    console.log(count === 0);
     if(count === 0){          //상
       storage.push(((eyelidToPupillDisSum)/50));
     }
@@ -31,7 +34,7 @@ let eyelidToPupillDisSum =0;
       storage.push(((eyeXDiffSum)/50),((eyeYDiffSum)/50));
     }
 
-    console.log(cycle);
+    //console.log(cycle);
     return storage;
     //console.log(leftEyeXDiffSum,RightEyeXDiffSum,leftEyeYDiffSum,RightEyeYDiffSum);
 }
@@ -109,7 +112,10 @@ async function zeroSet(){
     //console.log(eyeXDiffSum,eyeYDiffSum);
     EyelidDiff = (RightEyelidDiff[1] + LeftEyelidDiff[1]) * -1;
     cycle++;
-    console.log(eyelidToPupillDis,EyelidDiff);
+    //console.log(eyelidToPupillDis,EyelidDiff);
+    console.log("eyelidToPupillDis!: "+eyelidToPupillDis);
+    //아래 바라보는지 판단
+    console.log("EyelidDiff!: "+EyelidDiff);
     return ({eyeXDiffSum,eyeYDiffSum});
     
 

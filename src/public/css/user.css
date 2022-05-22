@@ -42,19 +42,6 @@
   font-size: 14px;
 }
 
-.form .radio-wrap {
-  display: inline-flex;
-  align-items: center;
-  font-family: "Roboto", sans-serif;
-  outline: 0;
-  background: #f2f2f2;
-  width: 100%;
-  border: 0;
-  margin: 0 0 15px;
-  padding: 15px;
-  box-sizing: border-box;
-  font-size: 14px;
-}
 
 .form #student {
   font-family: "Roboto", sans-serif;
@@ -240,7 +227,7 @@ h2 {
 }
 
 .parti_area {
-  border: 2px solid #9ED0FE;
+  border: 2px solid #a9e08b;
   border-radius: 6px;
   background-color: #ffffff;
 }

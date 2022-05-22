@@ -2,7 +2,7 @@ const eyeTrackingStartButton = document.getElementById("startBtn");
 const videoEl = document.getElementById("video");
 
 let count = 0;
-let arr = ['상단', '중앙', '하단', '좌측', '우측', '을 바라보세요'];
+let arr = ['상단', '중앙', '하단', '좌측', '우측'];
 let word = ["topWord", "centerWord", "bottomWord", "leftWord", "rightWord"]
 
 let try_num = 5;
@@ -17,22 +17,25 @@ let animal = ['캥거루', '토끼' ,'강아지', '고양이', '코알라', '고
 
 async function coordinate(){
     console.log("count"+count);
-    alert(arr[count]+arr[arr.length-1]);
+    alert(arr[count]+"을 바라보세요"); //좌측을 바라보세요
     document.getElementById(word[count]).innerText=animal[(Math.floor(Math.random() * 50))];
     runInitialTest(localvideo);
+    //runcheckscore(localvideo);
 }
 
 async function inputAnimal(){
 
     //console.log("visible");
     //document.getElementById("info").style.display="block";
+    //document.getElementById(word[count]).style.display = "none";
     inputPrompt = prompt('동물을 입력하세요');
+    //document.getElementById(word[count]).style.display = "block";
     if(inputPrompt !=document.getElementById(word[count]).innerText){
         alert("동물이 틀렸습니다. 다시한번 테스트하겠습니다.");
         coordinate();
     }
     else{
-        let retValue = returnValue();
+        let retValue = returnValue(count);
         console.log(retValue);
         count++;
         zeroSet();
@@ -40,7 +43,11 @@ async function inputAnimal(){
             document.getElementById("page2").style.display = "none";
             document.getElementById("page3").style.display = "block";
         }
+        else{coordinate();
+
+        }
     }
+
 }
 
 
