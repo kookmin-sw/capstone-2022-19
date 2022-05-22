@@ -88,18 +88,17 @@
                             <div style="text-align: right;"></div>
                         </div>
                         <div class="text_input_area">
-                            <input type="text" id="chat_message"></input><button id="send_btn" onclick="sand_chat()"
+                            <select id="message_to">
+                                <option value="all" selected>모두에게</option>
+                            </select>
+                            <input type="text" id="chat_message" onkeyup="if(window.event.keyCode==13){send_chat()}"></input><button id="send_btn" onclick="send_chat()"
                                 style="background-image: 
                             radial-gradient(ellipse farthest-corner at 0 140%, #b4e29b 0%, #7dd84c 70%, #a9e08b 70%);">전송</button>
                         </div>
                     </div>
                 </div>
-                <p class="invisible" id="ejs-name">
-                    <%=userInfo.name%>
-                </p>
-                <p class="invisible" id="ejs-type">
-                    <%=userInfo.type%>
-                </p>
+                <p class="invisible" id="ejs-name"><%=userInfo.name%></p>
+                <p class="invisible" id="ejs-type"><%=userInfo.type%></p>
             </div>
         </article>
     </div>
