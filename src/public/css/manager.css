@@ -1093,3 +1093,46 @@ input[type="file"] {
 .invisible {
   display: none;
 }
+
+.participants {
+  font-family:fantasy;
+  color: black;
+  font-size: 20px;
+  text-align: left;
+  padding-left: 10px;  
+}
+
+.alert {
+  font-family:fantasy;
+  color: black;
+  font-size: 15px;
+  text-align: left;
+}
+
+.line{
+  width: 230px;
+  height: 1px;
+  border-bottom: 1px solid black;
+  position:relative;
+}
+
+.localvideo {
+  border: 3px solid #a9e08b;
+  border-radius: 10px;
+  max-height: 300x;
+  width : 100%;
+}
+
+.localvideo1 {
+  border: 3px solid yellow;
+  border-radius: 10px;
+  max-height: 300x;
+  width : 100%;
+}
+
+.localvideo2 {
+  border: 3px solid red;
+  border-radius: 10px;
+  max-height: 300x;
+  width : 100%;
+}

@@ -1090,6 +1090,16 @@ input[type="file"] {
   border-radius: 10px;
 }
 
-.invisible {
-  display: none;
+.alert {
+  font-family:fantasy;
+  color: black;
+  font-size: 15px;
+  text-align: left;
+}
+
+.line{
+  width: 230px;
+  height: 1px;
+  border-bottom: 1px solid black;
+  position:relative;
 }

@@ -176,3 +176,30 @@ socket.on("receive_msg", (obj) => {
     $(".msg_container:last").append(msg_time);
     $(".msg_container:last").append(msg_window);
 })
+
+
+socket.on("notice", (obj) =>{
+    obj = JSON.parse(obj);
+
+    const message = obj.message;
+    const time = obj.time;
+    const userName = obj.name;
+
+    const alert_area = document.getElementById("ale_area");
+
+
+    const div = document.createElement("div");
+    div.className = "alert";
+    div.innerText = `[공지] ${message}`;
+    alert_area.append(div);
+
+    const div3 = document.createElement("div");
+    div3.className = "alert"
+    div3.innerText = `${time}`;
+    div3.style.textAlign = "right";
+    div.append(div3);
+
+    const div2 = document.createElement("div");
+    div2.className = "line";
+    div3.append(div2);
+})
