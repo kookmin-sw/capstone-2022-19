@@ -3,14 +3,9 @@
 @import url(https://fonts.googleapis.com/css?family=Roboto:300);
 
 .title {
-  margin-top: 40px;
-  font-family: "Last Ninja", Impact, fantasy;
+  font-family: "Roboto", sans-serif;
   color: #FFFFFF;
   font-size: 25px;
-  width: 100%;
-  height: 130px;
-  align-items: center;
-  border-radius: 10px 10px 0px 0px;
 }
 
 .user-page {
@@ -27,7 +22,7 @@
   margin: -150px auto 100px;
   padding: 45px;
   text-align: center;
-  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.5), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 }
 
 .form .txt {
@@ -42,6 +37,19 @@
   font-size: 14px;
 }
 
+.form .radio-wrap {
+  display: inline-flex;
+  align-items: center;
+  font-family: "Roboto", sans-serif;
+  outline: 0;
+  background: #f2f2f2;
+  width: 100%;
+  border: 0;
+  margin: 0 0 15px;
+  padding: 15px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
 
 .form #student {
   font-family: "Roboto", sans-serif;
@@ -128,6 +136,15 @@
   color: #EF3B3A;
 }
 
+body {
+  background: #76b852;
+  /* fallback for old browsers */
+  background: rgb(141, 194, 111);
+  background: linear-gradient(90deg, rgba(141, 194, 111, 1) 0%, rgba(118, 184, 82, 1) 50%);
+  font-family: "Roboto", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 .p1 {
   background: #76b852;
   /* fallback for old browsers */
@@ -137,7 +154,6 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
 body,
 html {
   margin: 0;
@@ -150,10 +166,6 @@ html {
   margin: 0;
   box-sizing: border-box;
   font-family: 'Alata', sans-serif;
-}
-html, body {
-  background: #eff0f2;
-  height: 100%;
 }
 .top{
   height: 50%;
@@ -203,6 +215,11 @@ html, body {
   outline: none;
   }
 
+body #page2 {
+  background: #eff0f2;
+  display: none;
+}
+
 .page-container {
   width: 100vw;
   height: 100vh;
@@ -219,7 +236,13 @@ html, body {
   box-shadow: 27px 43px 43px -26px rgba(89, 89, 89, 0.39);
 }
 
+.title {
 
+  width: 100%;
+  height: 130px;
+  align-items: center;
+  border-radius: 10px 10px 0px 0px;
+}
 
 .title h1,
 h2 {
@@ -227,7 +250,7 @@ h2 {
 }
 
 .parti_area {
-  border: 2px solid #a9e08b;
+  border: 2px solid #9ED0FE;
   border-radius: 6px;
   background-color: #ffffff;
 }
@@ -338,9 +361,9 @@ li {
 /* gird dispaly setting*/
 .wrapper {
   display: grid;
-  height: 100vh;
+  height: 130vh;
   grid-template-columns: 250px 1fr 1fr 400px;
-  grid-template-rows: 290px 1fr 1fr;
+  grid-template-rows: 160px 1fr 1fr;
   grid-gap: 3px;
   grid-auto-rows: minmax(10px, auto);
 }
@@ -503,7 +526,6 @@ li {
 
 .left_nav {
   width: fit-content;
-  height: 15%;
   margin-top: 10px;
   margin-left: 10px;
   overflow: hidden;
@@ -753,6 +775,10 @@ scroll-snap-type: mandatory;
   content: "";
   clear: both;
   display: table;
+}
+
+.title {
+  color: white;
 }
 
 .button {
@@ -1120,6 +1146,19 @@ input[type="file"] {
   border-radius: 10px;
 }
 
+.alert {
+  font-family:fantasy;
+  color: black;
+  font-size: 15px;
+  text-align: left;
+}
+
+.line{
+  width: 230px;
+  height: 1px;
+  border-bottom: 1px solid black;
+  position:relative;
+}
 .invisible {
   display: none;
 }

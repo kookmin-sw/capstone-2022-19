@@ -24,7 +24,7 @@
   z-index: 1;
   background: #FFFFFF;
   max-width: 360px;
-  margin: -150px auto 100px;
+  margin: -50px auto 100px;
   padding: 45px;
   text-align: center;
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
@@ -223,13 +223,12 @@ li {
 /* gird dispaly setting*/
 .wrapper {
   display: grid;
-  height: 100vh;
+  height: 130vh;
   grid-template-columns: 250px 1fr 1fr 400px;
-  grid-template-rows: 290px 1fr 1fr;
+  grid-template-rows: 200px 1fr 1fr;
   grid-gap: 3px;
   grid-auto-rows: minmax(10px, auto);
 }
-
 #par {
   grid-column: 1;
   grid-row: 1 / 2;
@@ -368,7 +367,7 @@ li {
 
 .left_nav {
   width: fit-content;
-  height : 15%;
+  height : 20%;
   margin-top: 10px;
   margin-left: 10px;
   overflow: hidden;

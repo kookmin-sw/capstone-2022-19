@@ -11,6 +11,7 @@ const localvideo = document.getElementById("localvideo");
 const streams = document.getElementById("streams");
 const btnProfessor = document.getElementById("professor");
 const roomNumber = document.getElementById("room-number");
+const subject = document.getElementById("subject");
 const welcome = document.getElementById("welcome");
 const msgInput = document.getElementById("chat_message");
 const selectbox = document.getElementById("message_to")
@@ -78,12 +79,17 @@ function send_chat() {
 
 function handleProfessorBtn(event) {
     console.log("ProfessorBtn click");
+    if (subject.value === "") {
+        alert("과목명을 입력해주세요.");
+        return;
+    }
     if (roomNumber.value === "") {
         alert("방 번호를 입력해주세요");
         return;
     }
+    exam = subject.value;
     roomId = roomNumber.value;
-    let data = { roomId: roomId, userId: socket.id, type: type, name: name };
+    let data = {exam:exam, roomId: roomId, userId: socket.id, type: type, name: name };
     socket.emit("professorJoin", data);
 }
 
@@ -95,7 +101,11 @@ function exitRoom() {
 //professor
 socket.on("createRoom", async (data) => {
     visible();
-    console.log("Create : " + data.userId + " RoomID : " + data.roomId);
+    const manager_info = document.getElementById("user_info");
+    const tag_p = document.createElement("p");
+    tag_p.innerText = `과목명: ${data.exam}`;
+    manager_info.append(tag_p);
+    console.log("Create : " + data.userId + " RoomID : " + data.roomId + "과목명 : " + data.exam);
 })
 
 

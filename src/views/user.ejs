@@ -19,25 +19,24 @@
     <div class="p1" id="page1">
         <div class="logo" style="text-align:center">
 
-            <img src="../public/logo.png" alt="Logo" style="float: center" width="200" height="200" />
-            <header class="title">ONGAMDOCK</header>
+            <img src="../public/logo.png" alt="Logo" style="float: center; width : 500px; height : 200; margin-top: 100px; margin-bottom: 150px;" />
         </div>
         <div class="user-page">
             <div class="form">
 
                 <form class="user-form">
                     <div id='welcome'>
-                        <p> 반갑습니다
+                        <p> 반갑습니다.
                         <p>
                             <%if(userInfo.type==="student" ){%>
-                                <%=userInfo.name%> 학생님
+                                <%=userInfo.name%> 학생님.
                                     <%}else{%>
-                                        <%=userInfo.name%> 학생님
+                                        <%=userInfo.name%> 학생님.
                                             <%}%>
                     </div>
                     <div id="streams"></div>
                     <div>
-                        <input class="txt" id="room-number" type="text" placeholder="방 번호를 입력해주세요"
+                        <input class="txt" id="room-number" type="text" placeholder="방 번호를 입력해주세요."
                             style="text-align: center;" />
                         <p id="student">입장하기</p>
                         <br>
@@ -56,7 +55,7 @@
             <button id="leftWord" class="e_button">left</button>
         </span>
         <span class="center">
-            <button id="centerWord" class="e_button">Submit</button>
+            <button id="centerWord" class="e_button">시작</button>
         </span>
         <span class="right">
             <button id="rightWord" class="e_button">right</button>
@@ -101,8 +100,7 @@
                         </div>
                         <div id="user_info">
                             <p>구분 : 학생</p>
-                            <p>이름 : <%=userInfo.name%>
-                            </p>
+                            <p>이름 : <%=userInfo.name%></p>
                         </div>
                     </div>
 
