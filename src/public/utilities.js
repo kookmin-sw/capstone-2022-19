@@ -16,18 +16,18 @@ let eyelidToPupillDisSum = 0;
 
   async function returnValue(count){
     if(count === 0){          //상
-      console.log(count = "0"+count);
+  
       storage.push(((eyelidToPupillDisSum)/50));
     }
 
     else if(count ===2){     //하
-      console.log(count = "2"+count);
+  
       storage.push((EyelidDiffSum)/50);
 
     }
 
     else{                 //좌 우 가운데
-      console.log(count = "좌 우 가운데"+count); 
+      
       storage.push(((eyeXDiffSum)/50),((eyeYDiffSum)/50));
     }
 
@@ -189,7 +189,7 @@ async function zeroSet(){
     cheatFace(face);
     //faceDisConnection()
 
-   // console.log(totalScore);
+   console.log(totalScore);
   }
   catch(err){
     if (err.name == "TypeError"){
