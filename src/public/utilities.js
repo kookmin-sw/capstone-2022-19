@@ -11,7 +11,9 @@ let totalScore = 0 ;
 let storage = new Array();
 let eyeXDiffSum = 0;
 let eyeYDiffSum = 0;
-<<<<<<< HEAD
+let EyelidDiffSum = 0;
+let eyelidToPupillDisSum = 0;
+
 let user_status = 0;
 let two_facesum = 0;
 let face_missingsum =0;
@@ -25,10 +27,6 @@ function set_user_status(score){
     return 0;
   }
 }
-=======
-let EyelidDiffSum = 0;
-let eyelidToPupillDisSum = 0;
->>>>>>> bdeee8fe3ef3538f68fadefe29ff0351e0a8bd12
 
   async function returnValue(count){
     if(count === 0){          //상
@@ -292,15 +290,6 @@ async function zeroSet(){
     let rightEyeYDiff = RPC[1] - REC[1];
     let returnScore = 0;
 
-<<<<<<< HEAD
-    if ((leftEyeXDiff + rightEyeXDiff) < -5) {
-      console.log("eye right");
-      returnScore = 2.5;
-
-    } else if ((leftEyeXDiff + rightEyeXDiff) > 5) {
-      console.log("eye left");
-      returnScore = 2.5;
-=======
     if ((leftEyeXDiff + rightEyeXDiff) < /*-5*/ storage[6]) {
         console.log("eye right");
         returnScore = 2.5;
@@ -308,7 +297,6 @@ async function zeroSet(){
     } else if ((leftEyeXDiff + rightEyeXDiff) > /* 5 */ storage[4]) {
         console.log("eye left");
         returnScore = 2.5;
->>>>>>> bdeee8fe3ef3538f68fadefe29ff0351e0a8bd12
 
     } 
                                    

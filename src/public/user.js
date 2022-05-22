@@ -125,7 +125,6 @@ socket.on("professorLeft", ()=>{
     alert("시험이 종료되었습니다");
     exitRoom();
 })
-<<<<<<< HEAD
 
 
 socket.on("receive_msg", (obj) => {
@@ -172,5 +171,3 @@ socket.on("notice", (obj) =>{
     div2.className = "line";
     div3.append(div2);
 })
-=======
->>>>>>> bdeee8fe3ef3538f68fadefe29ff0351e0a8bd12

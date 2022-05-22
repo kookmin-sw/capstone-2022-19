@@ -56,9 +56,7 @@ function send_chat() {
     var time = get_timestamp();
     const userName = name;
 
-    if(recipient==="notice") {
-        return;
-    }
+    
 
     if(msg){
         obj = {
@@ -67,13 +65,17 @@ function send_chat() {
             "name": userName
         }
         obj = JSON.stringify(obj)
+
+        if (recipient != "notice") {
+            var msg_container = "<div class=msg_container style='text-align : left'></div>";
+            $(".massage_area").append(msg_container);
+            var msg_time = "<div id=msg_time>" + time + "</div>";
+            var msg_window = "<div id=sand_msg>" + userName + " : " + msg + "</div>";
+            $(".msg_container:last").append(msg_window);
+            $(".msg_container:last").append(msg_time);
+        }
     
-        var msg_container = "<div class=msg_container style='text-align : left'></div>";
-        $(".massage_area").append(msg_container);
-        var msg_time = "<div id=msg_time>" +time+ "</div>";
-        var msg_window = "<div id=sand_msg>" + userName + " : " + msg + "</div>";
-        $(".msg_container:last").append(msg_window);
-        $(".msg_container:last").append(msg_time);
+        
         msgInput.value = "";
     
         socket.emit("professor_send_msg", obj, recipient);

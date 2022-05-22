@@ -930,7 +930,6 @@ input[type="file"] {
 
 .invisible {
   display: none;
-<<<<<<< HEAD
 }
 
 .participants {
@@ -974,6 +973,4 @@ input[type="file"] {
   border-radius: 10px;
   max-height: 300x;
   width : 100%;
-=======
->>>>>>> bdeee8fe3ef3538f68fadefe29ff0351e0a8bd12
 }
