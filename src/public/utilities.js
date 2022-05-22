@@ -9,28 +9,25 @@
 let cycle = 0;
 let totalScore = 0 ;
 let storage = new Array();
-let leftEyeXDiffSum = 0;
-let leftEyeYDiffSum = 0;
-let RightEyeXDiffSum = 0;
-let RightEyeYDiffSum = 0;
 let eyeXDiffSum = 0;
 let eyeYDiffSum = 0;
 let EyelidDiffSum = 0;
-let eyelidToPupillDisSum =0;
+let eyelidToPupillDisSum = 0;
 
   async function returnValue(count){
-    console.log(count == 0);
-    console.log(count === 0);
     if(count === 0){          //상
+  
       storage.push(((eyelidToPupillDisSum)/50));
     }
 
     else if(count ===2){     //하
+  
       storage.push((EyelidDiffSum)/50);
 
     }
 
-    else{                 //좌 우 가운데 
+    else{                 //좌 우 가운데
+      
       storage.push(((eyeXDiffSum)/50),((eyeYDiffSum)/50));
     }
 
@@ -107,6 +104,7 @@ async function zeroSet(){
     
     eyelidToPupillDisSum = eyelidToPupillDisSum+ eyelidToPupillDis;
     EyelidDiffSum = EyelidDiffSum+ EyelidDiff;
+    console.log("눈꺼풀사이의거리"+EyelidDiffSum);
 
 
     //console.log(eyeXDiffSum,eyeYDiffSum);
@@ -191,7 +189,7 @@ async function zeroSet(){
     cheatFace(face);
     //faceDisConnection()
 
-    console.log(totalScore);
+   console.log(totalScore);
   }
   catch(err){
     if (err.name == "TypeError"){
@@ -206,7 +204,7 @@ async function zeroSet(){
   
 }
   const cheatFace = (face) => {
-    if(face.length != 1){
+    if(face.length < 1){
       console.log("얼굴이 2개 이상 검출됐습니다.")
     } 
   }
@@ -261,23 +259,22 @@ async function zeroSet(){
     let rightEyeYDiff = RPC[1] - REC[1];
     let returnScore = 0;
 
-    if ((leftEyeXDiff + rightEyeXDiff) < -5) {
+    if ((leftEyeXDiff + rightEyeXDiff) < /*-5*/ storage[6]) {
         console.log("eye right");
         returnScore = 2.5;
 
-    } else if ((leftEyeXDiff + rightEyeXDiff) > 5) {
+    } else if ((leftEyeXDiff + rightEyeXDiff) > /* 5 */ storage[4]) {
         console.log("eye left");
         returnScore = 2.5;
 
     } 
                                    
-     else if (eyelidToPupillDis > 8) {
+     else if (eyelidToPupillDis > /*8*/ storage[0]){
       console.log("eye up");
       returnScore = 2.5;
      }
 
-    else if (EyelidDiff < -10) {
-      console.log(EyelidDiff);
+    else if (EyelidDiff < /*-17*/ storage[3]){
       console.log("eye down");
       returnScore = 1.5;
     }

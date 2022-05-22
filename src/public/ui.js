@@ -40,10 +40,12 @@ async function runInitialTest(localvideo){
     let j = 0;
     let timeValue= setInterval(() => {
             if(j == 50){
+                console.log(j);
                 clearInterval(timeValue);
                 inputAnimal();
              }
              else{
+                 console.log(j);
                 initialTest(localvideo);
                 j++;
              }
