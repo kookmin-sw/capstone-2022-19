@@ -47,7 +47,6 @@ async function inputAnimal(){
 
         }
     if (page3Start === true){
-        console.log("asvsavs");
         scorepage();
     }
     }
