@@ -123,6 +123,7 @@ function makeForm(idx, userName) {
     const streams = document.getElementById("streams");
     const peerDiv = document.createElement("div");
     peerDiv.id = idx;
+    peerDiv.className = "localvideo";
     streams.appendChild(peerDiv);
     const nameTag = document.createElement("p");
     nameTag.innerText = userName;

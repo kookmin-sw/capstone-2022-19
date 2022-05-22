@@ -1,23 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html id="home" lang="en">
 
 <head>
-    <script>
-        let userInfo = "<%=JSON.stringify(userInfo)%>";
-    </script>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OnGamDock-manager</title>
     <link rel="stylesheet" href="/public/css/manager.css">
 
-    <style type="text/css">
-
-    </style>
 </head>
 
 <body>
-    <div id="page1">
+    <div id="page1" style = "display : block;">
         <div class="logo" style="text-align:center">
 
             <img src="../public/logo.png" alt="Logo" style="float: center" width="200" height="200" />
@@ -29,10 +23,15 @@
                 <form class="user-form">
                     <div id='welcome'>
                         <p> 반갑습니다
-                        <p><%=userInfo.name%> 교수님
+                        <p>
+                            <%if(userInfo.type==="student" ){%>
+                                <%=userInfo.name%> 교수님
+                                    <%}else{%>
+                                        <%=userInfo.name%> 교수님
+                                            <%}%>
                     </div>
                     <div>
-                        <input class="txt" id="room-number" type="text" placeholder="방 번호를 입력해주세요" />
+                        <input class="txt" id="room-number" type="text" placeholder="방 번호를 입력해주세요" style = "text-align: center;"/>
                         <p id="professor">방 만들기</p>
                         <br>
                     </div>
@@ -42,7 +41,7 @@
             </div>
         </div>
     </div>
-    <div id="page2" style="display: none;">
+    <div id="page2" style = "display : none">
         <article style="background-color:#eff0f2">
             <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
             </script>
@@ -51,6 +50,12 @@
 
             <div class="non-visual">
                 <!--invisiable in homepage-->
+                <div class="modal"></div>
+                <div class="pop-up">
+                    <div style="margin-top:10%; color:black; font-size:2.5rem; font-weight: bold;">미팅을 종료하시겠습니까?</div>
+                    <button class="exit_btn" onclick="exit_yes()">네</button>
+                    <button class="exit_btn" onclick="exit_no()">아니오</button>
+                </div>
                 <div class="wrapper">
                     <!--grid UI-->
                     <div id="par">
@@ -68,40 +73,40 @@
                     </div>
                     <div class=content style="overFlow-y : scroll">
                         <!--remote video-->
-                        <div class="left_nav">
+                  
+
+                        <div class=videos id=streams></div>
+                    </div>
+                    <div class="left_nav">
                             <button id="exit" class="basicBtns" onclick="exitRoom()"><i
                                     class="fas fa-sign-out-alt"></i></button>
                             <!--exit peer connection func bnt-->
+
                         </div>
-
-                        <div class=videos id="streams"></div>
-                    </div>
-
-                    <!-- <div id=hiddenChat style="display: none;">
-                    <button class="chatOnBtn" onclick="chatOn()" ><i class="fas fa-eye"></i></button>
-                </div> -->
                     <div id=chat style="overflow: hidden;">
                         <div class="massage_area" style="height:87%; overFlow-y : scroll;">
                             <div style="text-align: right;"></div>
                         </div>
                         <div class="text_input_area">
-                            <input type="text" id="chat_message"></input><button id="send_btn" onclick="send_chat()"
+                            <input type="text" id="chat_message"></input><button id="send_btn" onclick="sand_chat()"
                                 style="background-image: 
-                        radial-gradient(ellipse farthest-corner at 0 140%, #b4e29b 0%, #7dd84c 70%, #a9e08b 70%);">전송</button>
+                            radial-gradient(ellipse farthest-corner at 0 140%, #b4e29b 0%, #7dd84c 70%, #a9e08b 70%);">전송</button>
                         </div>
                     </div>
                 </div>
+                <p class="invisible" id="ejs-name">
+                    <%=userInfo.name%>
+                </p>
+                <p class="invisible" id="ejs-type">
+                    <%=userInfo.type%>
+                </p>
             </div>
-            <p class="invisible" id="ejs-name"><%=userInfo.name%></p>
-            <p class="invisible" id="ejs-type"><%=userInfo.type%></p>
         </article>
     </div>
-
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
     <script src="/public/manager.js"></script>
     <script src="https://use.fontawesome.com/releases/v5.13.0/js/all.js"></script>
 </body>
-
 
 </html>
