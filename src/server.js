@@ -54,15 +54,16 @@ let userData = {};
 io.on("connection", (socket) => {
     console.log(`${socket.id} Connected`);
 
-    socket.on("totalScore", (data) => {
-        console.log(data);
-    })
 
     //교수 입장
     socket.on("professorJoin", (data) => {
         let roomId = data.roomId;
         let userId = data.userId;
         console.log(`professor : ${data.userName}(${userId}) joined ${roomId} `);
+
+        let clientIp = socket.request.connection.remoteAddress;
+        console.log(clientIp);
+
 
         if (room_chk[roomId] === true) {
             console.log(`${data.userName}${data.type} failed to make room(${roomId})`);
@@ -71,7 +72,8 @@ io.on("connection", (socket) => {
             userData[userId] = {
                 userName: data.name,
                 roomId: data.roomId,
-                type: data.type
+                type: data.type,
+                ip: clientIp
             }
             room_chk[roomId] = true;
             room_manager[roomId] = socket.id;
@@ -89,14 +91,19 @@ io.on("connection", (socket) => {
         let roomId = data.roomId;
         let userId = data.userId;
         let userName = data.userName;
+        let clientIp = socket.request.connection.remoteAddress;
+        console.log(clientIp);
 
         console.log(`Student : ${userName} (${userId}) joined `);
+
+        
 
         if (room_chk[roomId] === true) {
             userData[userId] = {
                 userName: data.userName,
                 roomId: data.roomId,
-                type: data.type
+                type: data.type,
+                ip: clientIp
             }
             socket.join(roomId);
             socket.emit('joinRoom', data);
@@ -113,7 +120,8 @@ io.on("connection", (socket) => {
     })
 
     socket.on("reqAnswer", (offer, data) => {
-        socket.to(room_manager[data.roomId]).emit("reqAnswer", offer, data);
+        var clientIp = socket.request.connection.remoteAddress;
+        socket.to(room_manager[data.roomId]).emit("reqAnswer", offer, data, clientIp);
     })
 
     // 교수 >> 학생
@@ -157,14 +165,34 @@ io.on("connection", (socket) => {
         if(recipient === "all"){
             const roomId = userData[socket.id].roomId;
             socket.broadcast.to(roomId).emit("receive_msg", obj);
-        }else{
+        }else if(recipient === "notice"){
+            const roomId = userData[socket.id].roomId;
+            socket.broadcast.to(roomId).emit("notice", obj);
+        }else {
             socket.to(recipient).emit("receive_msg", obj);
         }
     })
+
+    socket.on("detected", (status)=>{
+        console.log("감지됨");
+        const roomId = userData[socket.id].roomId;
+        socket.to(room_manager[roomId]).emit("cheating_detected", socket.id, status);
+    })
+
+    socket.on("two_face", () => {
+        const roomId = userData[socket.id].roomId;
+        socket.to(room_manager[roomId]).emit("two_face", socket.id);
+    })
+
+    socket.on("face_missing", () => {
+        const roomId = userData[socket.id].roomId;
+        socket.to(room_manager[roomId]).emit("face_missing", socket.id);
+    })
+
 
 })
 
 
 
 const handleListen = () => console.log(`Listening on http://localhost:3000`);
-httpServer.listen(PORT, handleListen);
+httpServer.listen(PORT, '0.0.0.0', handleListen);

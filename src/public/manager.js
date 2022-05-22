@@ -14,7 +14,9 @@ const roomNumber = document.getElementById("room-number");
 const subject = document.getElementById("subject");
 const welcome = document.getElementById("welcome");
 const msgInput = document.getElementById("chat_message");
-const selectbox = document.getElementById("message_to")
+const selectbox = document.getElementById("message_to");
+const participants = document.getElementById("participants");
+const alert_area = document.getElementById("alert_area");
 
 const ejsName = document.getElementById("ejs-name");
 const ejsType = document.getElementById("ejs-type");
@@ -54,6 +56,8 @@ function send_chat() {
     var time = get_timestamp();
     const userName = name;
 
+    
+
     if(msg){
         obj = {
             "message": msg,
@@ -61,13 +65,17 @@ function send_chat() {
             "name": userName
         }
         obj = JSON.stringify(obj)
+
+        if (recipient != "notice") {
+            var msg_container = "<div class=msg_container style='text-align : left'></div>";
+            $(".massage_area").append(msg_container);
+            var msg_time = "<div id=msg_time>" + time + "</div>";
+            var msg_window = "<div id=sand_msg>" + userName + " : " + msg + "</div>";
+            $(".msg_container:last").append(msg_window);
+            $(".msg_container:last").append(msg_time);
+        }
     
-        var msg_container = "<div class=msg_container style='text-align : left'></div>";
-        $(".massage_area").append(msg_container);
-        var msg_time = "<div id=msg_time>" +time+ "</div>";
-        var msg_window = "<div id=sand_msg>" + userName + " : " + msg + "</div>";
-        $(".msg_container:last").append(msg_window);
-        $(".msg_container:last").append(msg_time);
+        
         msgInput.value = "";
     
         socket.emit("professor_send_msg", obj, recipient);
@@ -116,13 +124,14 @@ socket.on("alreadyExist", () => {
 });
 
 
-socket.on("reqAnswer", async (offer, data) => {
+socket.on("reqAnswer", async (offer, data, ip) => {
     cntStudent = cntStudent + 1;
 
     studentData[data.userId] = {
         userId: data.userId,
         userName: data.userName,
-        userIndex: cntStudent
+        userIndex: cntStudent,
+        userIp: ip
     };
 
     student_entered(studentData[data.userId]);
@@ -167,8 +176,16 @@ socket.on("studentLeft", (userId) => {
 
     const streams = document.getElementById("streams");
     const userStream = document.getElementById(info.userIndex);
+    const parti = document.getElementById(`parti_${info.userIndex}`);
 
     streams.removeChild(userStream);
+    parti.remove();
+    
+    const left_div = document.createElement("div");
+    left_div.innerText = `${info.userName}님이 나가셨습니다.`
+    left_div.className = "alert";
+
+    alert_area.append(left_div);
 
     $(`#message_to option[value='${userId}']`).remove();
 })
@@ -222,6 +239,59 @@ function student_entered(info) {
     option.innerText = info.userName;
     option.value = info.userId;
     selectbox.append(option);
+
+
+    const div = document.createElement("div");
+    div.id = `parti_${info.userIndex}`;
+    div.className = "participants";
+    div.innerText = ` ${info.userName} (${info.userIp})`;
+    participants.append(div);
+
+    const div2 = document.createElement("div");
+    div2.className = "line";
+    div.append(div2);
+
+    const enter_div = document.createElement("div");
+    enter_div.innerText = `${info.userName}님이 들어오셨습니다.`
+    enter_div.className = "alert";
+
+    alert_area.append(enter_div);
 }
+
+
+socket.on("cheating_detected", (userId, user_status)=>{
+    const info = studentData[userId];
+    
+    const idx = studentData[userId].userIndex;
+    const userStream = document.getElementById(idx);
+    userStream.className = `localvideo${user_status}`;
+
+    const dectected_div = document.createElement("div");
+    dectected_div.innerText = `${info.userName}님의 상태변화가 감지되었습니다.`
+    dectected_div.className = "alert";
+
+    alert_area.append(dectected_div);
+});
+
+
+socket.on("two_face", (userId) => {
+    const info = studentData[userId];
+
+    const dectected_div = document.createElement("div");
+    dectected_div.innerText = `${info.userName}님 화면에 2개 이상의 얼굴이 감지되었습니다.`
+    dectected_div.className = "alert";
+
+    alert_area.append(dectected_div);
+})
+
+socket.on("face_missing", (userId) => {
+    const info = studentData[userId];
+
+    const dectected_div = document.createElement("div");
+    dectected_div.innerText = `${info.userName}님 화면에 얼굴이 감지되지 않습니다.`
+    dectected_div.className = "alert";
+
+    alert_area.append(dectected_div);
+})
 
 

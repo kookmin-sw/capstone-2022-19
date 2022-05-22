@@ -14,6 +14,20 @@ let eyeYDiffSum = 0;
 let EyelidDiffSum = 0;
 let eyelidToPupillDisSum = 0;
 
+let user_status = 0;
+let two_facesum = 0;
+let face_missingsum =0;
+
+function set_user_status(score){
+  if(score>=40 && score<70){
+    return 1;
+  }else if(score>=70){
+    return 2;
+  }else{
+    return 0;
+  }
+}
+
   async function returnValue(count){
     if(count === 0){          //상
   
@@ -186,6 +200,12 @@ async function zeroSet(){
     let faceMouth = face[0].scaledMesh[0]; 
     totalScore = totalScore + detectPupil(LEC, REC, LPC, RPC, EyelidDiff, eyelidToPupillDis );
     totalScore = totalScore + faceAngle(faceLeft, faceRight, faceTop, faceBottom);
+
+    if(user_status != set_user_status(totalScore)){
+      user_status = set_user_status(totalScore);
+      socket.emit("detected", user_status);
+    }
+    
     cheatFace(face);
     //faceDisConnection()
 
@@ -194,6 +214,12 @@ async function zeroSet(){
   catch(err){
     if (err.name == "TypeError"){
       console.log("얼굴 미검출, 자리이동 의심");
+      face_missingsum++;
+      if(face_missingsum>10){
+        socket.emit("face_missing");
+        face_missingsum =0;
+      }
+      
     }
     /*
     else if (err.name == "ReferenceError"){
@@ -206,6 +232,11 @@ async function zeroSet(){
   const cheatFace = (face) => {
     if(face.length < 1){
       console.log("얼굴이 2개 이상 검출됐습니다.")
+      two_facesum++;
+      if(two_facesum>10){
+        socket.emit("two_face");
+        two_facesum =0;
+      }
     } 
   }
 
