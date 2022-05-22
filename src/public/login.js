@@ -7,6 +7,12 @@ const loginButton = document.querySelector("#button");
 loginButton.addEventListener("click", login);
 
 function login() {
+
+    if(password.value === ""){
+        alert("비밀번호를 입력해주세요");
+        return;
+    }
+
     const request = {
         email: email.value,
         password: password.value,
