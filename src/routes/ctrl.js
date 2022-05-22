@@ -56,10 +56,8 @@ const output = {
                 type: req.session.userInfo.type
             }
             if (req.session.userInfo.type === "professor") {
-                req.session = null;
                 res.render("manager", { userInfo: userInfo, error: false });
             } else if (req.session.userInfo.type === "student") {
-                req.session = null;
                 res.render("user", { userInfo: userInfo, error: false })
             } else {
                 res.render("login");

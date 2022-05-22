@@ -11,7 +11,10 @@ const localvideo = document.getElementById("localvideo");
 const streams = document.getElementById("streams");
 const btnProfessor = document.getElementById("professor");
 const roomNumber = document.getElementById("room-number");
+const subject = document.getElementById("subject");
 const welcome = document.getElementById("welcome");
+const msgInput = document.getElementById("chat_message");
+const selectbox = document.getElementById("message_to")
 
 const ejsName = document.getElementById("ejs-name");
 const ejsType = document.getElementById("ejs-type");
@@ -36,15 +39,59 @@ function visible() {
     page2.style.display = "block";
 }
 
+function get_timestamp() {
+    var today = new Date();
+    var hour = today.getHours();
+    var min = today.getMinutes();
+
+    if (min < 10 && min >= 0) { var time = hour + ":0" + min; }
+    else { var time = hour + ":" + min; }
+
+    return time;
+}
+
+function send_chat() {
+    const recipient = $('#message_to option:selected').val();
+    const msg = msgInput.value;
+    var time = get_timestamp();
+    const userName = name;
+
+    if(msg){
+        obj = {
+            "message": msg,
+            "time": time,
+            "name": userName
+        }
+        obj = JSON.stringify(obj)
+    
+        var msg_container = "<div class=msg_container style='text-align : left'></div>";
+        $(".massage_area").append(msg_container);
+        var msg_time = "<div id=msg_time>" +time+ "</div>";
+        var msg_window = "<div id=sand_msg>" + userName + " : " + msg + "</div>";
+        $(".msg_container:last").append(msg_window);
+        $(".msg_container:last").append(msg_time);
+        msgInput.value = "";
+    
+        socket.emit("professor_send_msg", obj, recipient);
+    }
+
+}
+
+
 
 function handleProfessorBtn(event) {
     console.log("ProfessorBtn click");
-    if(roomNumber.value === ""){
-        alert("방 번호를 입력해주세요");
-        return ;
+    if (subject.value === "") {
+        alert("과목명을 입력해주세요.");
+        return;
     }
+    if (roomNumber.value === "") {
+        alert("방 번호를 입력해주세요");
+        return;
+    }
+    exam = subject.value;
     roomId = roomNumber.value;
-    let data = { roomId: roomId, userId: socket.id, type: type, name: name };
+    let data = {exam:exam, roomId: roomId, userId: socket.id, type: type, name: name };
     socket.emit("professorJoin", data);
 }
 
@@ -56,7 +103,11 @@ function exitRoom() {
 //professor
 socket.on("createRoom", async (data) => {
     visible();
-    console.log("Create : " + data.userId + " RoomID : " + data.roomId);
+    const manager_info = document.getElementById("user_info");
+    const tag_p = document.createElement("p");
+    tag_p.innerText = `과목명: ${data.exam}`;
+    manager_info.append(tag_p);
+    console.log("Create : " + data.userId + " RoomID : " + data.roomId + "과목명 : " + data.exam);
 })
 
 
@@ -72,10 +123,12 @@ socket.on("reqAnswer", async (offer, data) => {
 
     studentData[data.userId] = {
         userId: data.userId,
-        username: data.username,
-        userIndex: cntStudent,
-        streamIndex: cntStudent
+        userName: data.userName,
+        userIndex: cntStudent
     };
+
+    student_entered(studentData[data.userId]);
+
 
     makeForm(cntStudent, data.userName);
 
@@ -118,6 +171,26 @@ socket.on("studentLeft", (userId) => {
     const userStream = document.getElementById(info.userIndex);
 
     streams.removeChild(userStream);
+
+    $(`#message_to option[value='${userId}']`).remove();
+})
+
+socket.on("receive_msg", (obj) => {
+    console.log("메세지 받았따");
+    console.log(obj);
+
+    obj = JSON.parse(obj);
+
+    const message = obj.message;
+    const time = obj.time;
+    const userName = obj.name;
+
+    var msg_container = "<div class=msg_container style='text-align : right'></div>";
+    $(".massage_area").append(msg_container);
+    var msg_time = "<div id=msg_time>" + time + "</div>";
+    var msg_window = "<div id=sand_msg>" + userName + " : " + message + "</div>";
+    $(".msg_container:last").append(msg_time);
+    $(".msg_container:last").append(msg_window);
 })
 
 
@@ -125,11 +198,11 @@ function makeForm(idx, userName) {
     const streams = document.getElementById("streams");
     const peerDiv = document.createElement("div");
     peerDiv.id = idx;
+    peerDiv.className = "localvideo";
     streams.appendChild(peerDiv);
     const nameTag = document.createElement("p");
     nameTag.innerText = userName;
     peerDiv.appendChild(nameTag);
-
 }
 
 function handleAddStream(data) {
@@ -144,5 +217,13 @@ function handleAddStream(data) {
     streams.appendChild(peerStream);
 }
 
+
+function student_entered(info) {
+    console.log(info.userName);
+    var option = document.createElement("option");
+    option.innerText = info.userName;
+    option.value = info.userId;
+    selectbox.append(option);
+}
 
 

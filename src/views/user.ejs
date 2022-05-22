@@ -10,25 +10,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OnGamDock-student</title>
     <link rel="stylesheet" href="/public/css/user.css">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="#">
 </head>
 
 <body>
-    <div id="page1">
+    <div class="p1" id="page1">
         <div class="logo" style="text-align:center">
 
-            <img src="../public/logo.png" alt="Logo" style="float: center" width="200" height="200" />
-            <header class="title">ONGAMDOCK</header>
+            <img src="../public/logo.png" alt="Logo" style="float: center; width : 500px; height : 200; margin-top: 100px; margin-bottom: 150px;" />
         </div>
         <div class="user-page">
             <div class="form">
 
                 <form class="user-form">
                     <div id='welcome'>
-                        <p> 반갑습니다
-                        <p> <%=userInfo.name%> 학생님
+                        <p> 반갑습니다.
+                        <p>
+                            <%if(userInfo.type==="student" ){%>
+                                <%=userInfo.name%> 학생님.
+                                    <%}else{%>
+                                        <%=userInfo.name%> 학생님.
+                                            <%}%>
                     </div>
+                    <div id="streams"></div>
                     <div>
-                        <input class="txt" id="room-number" type="text" placeholder="방 번호를 입력해주세요" />
+                        <input class="txt" id="room-number" type="text" placeholder="방 번호를 입력해주세요."
+                            style="text-align: center;" />
                         <p id="student">입장하기</p>
                         <br>
                     </div>
@@ -38,7 +47,25 @@
             </div>
         </div>
     </div>
-    <div id="page2" style=" display : none">
+    <span id="page2" style="display : none; height : 100%;">
+        <span class="top">
+            <button id="topWord" class="e_button">top</button>
+        </span>
+        <span class="left">
+            <button id="leftWord" class="e_button">left</button>
+        </span>
+        <span class="center">
+            <button id="centerWord" class="e_button">시작</button>
+        </span>
+        <span class="right">
+            <button id="rightWord" class="e_button">right</button>
+        </span>
+        <span class="bottom">
+            <button id="bottomWord" class="e_button">bottom</button>
+        </span>
+    </span>
+
+    <div id="page3" style=" display : none">
         <article style="background-color:#eff0f2">
             <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
 
@@ -57,29 +84,32 @@
                     </div>
                     <div class=content style="overFlow-y : scroll">
                         <!--remote video-->
-                        <div class="left_nav">
-                            <button id="exit" class="basicBtns" onclick="exitRoom()"><i
-                                    class="fas fa-sign-out-alt"></i></button>
-                            <!--exit peer connection func bnt-->
-
-                        </div>
 
                         <div class="videos">
                             <video id="localvideo" autoplay playsinline width="300" height="300 muted"></video>
                             <video id="screen-share" autoplay playsinline width="300" height="350 muted"></video>
                         </div>
                     </div>
-                    <div id="user_info">
-                        <p>구분 : 학생</p>
-                        <p>이름 : <%=userInfo.name%></p>
+                    <div>
+                        <div class="left_nav">
+                            <button id="exit" class="basicBtns" onclick="exitRoom()"><i
+                                    class="fas fa-sign-out-alt"></i></button>
+                            <!--exit peer connection func bnt-->
+
+                        </div>
+                        <div id="user_info">
+                            <p>구분 : 학생</p>
+                            <p>이름 : <%=userInfo.name%></p>
+                        </div>
                     </div>
+
 
                     <div id=chat style="overflow: hidden;">
                         <div class="massage_area" style="height:87%; overFlow-y : scroll;">
                             <div style="text-align: right;"></div>
                         </div>
                         <div class="text_input_area">
-                            <input type="text" id="chat_message" onkeyup="if(window.event.keyCode==13){send_chat()}"><button id="send_btn" onclick="sand_chat()"
+                            <input type="text" id="chat_message" onkeyup="if(window.event.keyCode==13){send_chat()}"></input><button id="send_btn" onclick="send_chat()"
                                 style="background-image: 
                           radial-gradient(ellipse farthest-corner at 0 140%, #b4e29b 0%, #7dd84c 70%, #a9e08b 70%);">전송</button>
                         </div>
@@ -91,11 +121,16 @@
         </article>
     </div>
 
+
+
+
+
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
     <script src="/public/user.js"></script>
     <script src="/public/TRIANGULATION.js"></script>
     <script src="/public/utilities.js"></script>
+    <script src="/public/eyetracking.js"></script>
 
     <!-- Require the peer dependencies of face-landmarks-detection. -->
     <script src="https://unpkg.com/@tensorflow/tfjs-core@2.4.0/dist/tf-core.js"></script>
@@ -106,8 +141,12 @@
     <!-- Alternatively you can use the WASM backend: <script src="https://unpkg.com/@tensorflow/tfjs-backend-wasm@2.4.0/dist/tf-backend-wasm.js"></script> -->
 
     <!-- Require face-landmarks-detection itself. -->
-    <script src="https://unpkg.com/@tensorflow-models/face-landmarks-detection@0.0.3/dist/face-landmarks-detection.js"></script>
+    <script
+        src="https://unpkg.com/@tensorflow-models/face-landmarks-detection@0.0.1/dist/face-landmarks-detection.js"></script>
+    <!--<script src="https://unpkg.com/@tensorflow-models/face-landmarks-detection/dist/face-landmarks-detection.js"></script>-->
     <script src="/public/ui.js"></script>
+    <script src="https://use.fontawesome.com/releases/v5.13.0/js/all.js"></script>
+    <script src="/public/scorepage.js"></script>
 </body>
 
 </html>

@@ -25,7 +25,6 @@ const type = ejsType.innerText;
 const page1 = document.getElementById("page1");
 const page2 = document.getElementById("page2");
 
-
 let sendPC;
 let myStream;
 let screenShare;
