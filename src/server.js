@@ -14,9 +14,11 @@ let iceServers = {
     iceServers: [
         { urls: "stun:stun.services.mozilla.com" },
         { urls: "stun:stun.l.google.com:19302" },
-        {urls: 'turn:3.38.181.169:3478?transport=tcp', 
-        username: 'reverse2', 
-        credential: '277400'},
+        {
+            urls: 'turn:3.38.181.169:3478?transport=tcp',
+            username: 'reverse2',
+            credential: '277400'
+        },
     ],
 };
 
@@ -37,7 +39,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(session({
     secret: 'keyboard cat',
     resave: false,
-    saveUninitialized : true
+    saveUninitialized: true
 }))
 
 app.use("/", routing);
@@ -52,7 +54,7 @@ let userData = {};
 io.on("connection", (socket) => {
     console.log(`${socket.id} Connected`);
 
-    socket.on("totalScore" ,(data)=> {
+    socket.on("totalScore", (data) => {
         console.log(data);
     })
 
@@ -65,15 +67,16 @@ io.on("connection", (socket) => {
         if (room_chk[roomId] === true) {
             console.log(`${data.userName}${data.type} failed to make room(${roomId})`);
             socket.emit("alreadyExist");
-        } else{
+        } else {
             userData[userId] = {
                 userName: data.name,
-                roomId : data.roomId,
+                roomId: data.roomId,
                 type: data.type
             }
             room_chk[roomId] = true;
             room_manager[roomId] = socket.id;
             socket.join(roomId);
+            console.log(room_chk);
             socket.emit('createRoom', data);
         }
         console.log(userData[socket.id]);
@@ -98,12 +101,10 @@ io.on("connection", (socket) => {
             socket.join(roomId);
             socket.emit('joinRoom', data);
 
-        } else{
+        } else {
             console.log(`${data.userName}${data.type} failed to enter room(${roomId})`);
             socket.emit("noRoom");
         }
-
-        console.log(userData[socket.id]);
     })
 
     //학생 >> 교수
@@ -114,7 +115,7 @@ io.on("connection", (socket) => {
     socket.on("reqAnswer", (offer, data) => {
         socket.to(room_manager[data.roomId]).emit("reqAnswer", offer, data);
     })
-    
+
     // 교수 >> 학생
     socket.on("professorSendIce", (candidate, data) => {
         socket.to(data.userId).emit("proIceArrived", candidate, data);
@@ -124,10 +125,10 @@ io.on("connection", (socket) => {
         socket.to(data.userId).emit("answerArrived", answer, data);
     })
 
-    socket.on("disconnect", ()=>{
+    socket.on("disconnect", () => {
         console.log("SOCKETIO disconnect EVENT: ", socket.id, " client disconnect");
 
-        if(userData[socket.id] === undefined){
+        if (userData[socket.id] === undefined) {
             return;
         }
         const roomId = userData[socket.id].roomId;
@@ -135,20 +136,30 @@ io.on("connection", (socket) => {
         const type = userData[socket.id].type;
         const userId = socket.id;
 
-        room_chk[roomId] = false;
-        room_manager[roomId] = null;
 
-        if(type === "student"){
+
+        if (type === "student") {
             userData[userId] = null;
             socket.to(room_manager[roomId]).emit("studentLeft", userId);
-        }else{
+        } else {
+            room_chk[roomId] = false;
+            room_manager[roomId] = null;
             socket.broadcast.to(roomId).emit("professorLeft");
         }
     })
 
-    socket.on("send_msg", (msg) =>{
-        console.log(msg);
-        console.log(socket.id);
+    socket.on("send_msg", (obj) => {
+        const room_Id = userData[socket.id].roomId;
+        socket.to(room_manager[room_Id]).emit("receive_msg",obj);
+    })
+
+    socket.on("professor_send_msg", (obj, recipient)=>{
+        if(recipient === "all"){
+            const roomId = userData[socket.id].roomId;
+            socket.broadcast.to(roomId).emit("receive_msg", obj);
+        }else{
+            socket.to(recipient).emit("receive_msg", obj);
+        }
     })
 
 })
