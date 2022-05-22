@@ -33,9 +33,9 @@ let rId;
 
 btnStudent.addEventListener("click", handleStudentBtn);
 
-function visible() {
-    page1.style.display = "none";
-    page2.style.display = "block";
+function visible(){
+  page1.style.display = "none";
+  page2.style.display = "block";
 }
 
 function handleStudentBtn(event) {
@@ -46,45 +46,14 @@ function handleStudentBtn(event) {
 }
 
 
-function exitRoom() {
+function exitRoom(){
     location.href = "/exit";
 }
 
-function get_timestamp() {
-    var today = new Date();
-    var hour = today.getHours();
-    var min = today.getMinutes();
-
-    if (min < 10 && min >= 0) { var time = hour + ":0" + min; }
-    else { var time = hour + ":" + min; }
-
-    return time;
-}
-
-function send_chat() {
+function send_chat(){
     const msg = msgInput.value;
-    var time = get_timestamp();
-
-
-    if(msg){
-        obj = {
-            "message": msg,
-            "time": time,
-            "name": userName
-        }
-        obj = JSON.stringify(obj)
-    
-        var msg_container = "<div class=msg_container style='text-align : left'></div>";
-        $(".massage_area").append(msg_container);
-        var msg_time = "<div id=msg_time>" +time+ "</div>";
-        var msg_window = "<div id=sand_msg>" + userName + " : " + msg + "</div>";
-        $(".msg_container:last").append(msg_window);
-        $(".msg_container:last").append(msg_time);
-        msgInput.value = "";
-    
-        socket.emit("send_msg", obj);
-    }
-
+    msgInput.value = "";
+    socket.emit("send_msg",msg);
 }
 
 
@@ -112,10 +81,10 @@ socket.on("joinRoom", async (data) => {
             sendPC.addTrack(myStream.getTracks()[0], myStream);
             sendPC.addTrack(myStream.getTracks()[1], myStream);
 
-
+            
         })
     await navigator.mediaDevices
-        .getDisplayMedia().then(function (stream) {
+        .getDisplayMedia().then(function(stream) {
             screenShare = stream;
             screenSharevideo.srcObject = stream;
             sendPC.addTrack(screenShare.getTracks()[0], screenShare);
@@ -151,27 +120,8 @@ socket.on("noRoom", () => {
 })
 
 
-socket.on("professorLeft", () => {
+socket.on("professorLeft", ()=>{
     console.log("professor has left");
     alert("시험이 종료되었습니다");
     exitRoom();
-})
-
-
-socket.on("receive_msg", (obj) => {
-    console.log("메세지 받았따");
-    console.log(obj);
-
-    obj = JSON.parse(obj);
-
-    const message = obj.message;
-    const time = obj.time;
-    const userName = obj.name;
-
-    var msg_container = "<div class=msg_container style='text-align : right'></div>";
-    $(".massage_area").append(msg_container);
-    var msg_time = "<div id=msg_time>" + time + "</div>";
-    var msg_window = "<div id=sand_msg>" + userName + " : " + message + "</div>";
-    $(".msg_container:last").append(msg_time);
-    $(".msg_container:last").append(msg_window);
 })
