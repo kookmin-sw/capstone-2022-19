@@ -125,3 +125,49 @@ socket.on("professorLeft", ()=>{
     alert("시험이 종료되었습니다");
     exitRoom();
 })
+
+
+socket.on("receive_msg", (obj) => {
+    console.log("메세지 받았따");
+    console.log(obj);
+
+    obj = JSON.parse(obj);
+
+    const message = obj.message;
+    const time = obj.time;
+    const userName = obj.name;
+
+    var msg_container = "<div class=msg_container style='text-align : right'></div>";
+    $(".massage_area").append(msg_container);
+    var msg_time = "<div id=msg_time>" + time + "</div>";
+    var msg_window = "<div id=sand_msg>" + userName + " : " + message + "</div>";
+    $(".msg_container:last").append(msg_time);
+    $(".msg_container:last").append(msg_window);
+})
+
+
+socket.on("notice", (obj) =>{
+    obj = JSON.parse(obj);
+
+    const message = obj.message;
+    const time = obj.time;
+    const userName = obj.name;
+
+    const alert_area = document.getElementById("ale_area");
+
+
+    const div = document.createElement("div");
+    div.className = "alert";
+    div.innerText = `[공지] ${message}`;
+    alert_area.append(div);
+
+    const div3 = document.createElement("div");
+    div3.className = "alert"
+    div3.innerText = `${time}`;
+    div3.style.textAlign = "right";
+    div.append(div3);
+
+    const div2 = document.createElement("div");
+    div2.className = "line";
+    div3.append(div2);
+})
