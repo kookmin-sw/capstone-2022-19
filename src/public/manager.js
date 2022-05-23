@@ -29,6 +29,8 @@ const type = ejsType.innerText;
 
 
 let receivePC;
+let myStream;
+
 let cntStudent = 0;
 let studentData = {};
 

@@ -11,7 +11,7 @@ let animal = ['캥거루', '토끼' ,'강아지', '고양이', '코알라', '고
 '랍스타', '원앙', '까마귀', '오리', '앵무새', '부엉이', '참새', '꾀꼬리', '나비',
 '잠자리', '이구아나', '카멜레온', '개미핥기', '거미', '잉어', '곰', '펭귄', '거위',
 '박쥐', '병아리', '닭'];
-
+let retValue= new Array();
 
 
 async function coordinate(){
@@ -24,9 +24,7 @@ async function coordinate(){
 
 async function inputAnimal(){
 
-    //console.log("visible");
-    //document.getElementById("info").style.display="block";
-    //document.getElementById(word[count]).style.display = "none";
+   
     inputPrompt = prompt('동물을 입력하세요');
     //document.getElementById(word[count]).style.display = "block";
     if(inputPrompt !=document.getElementById(word[count]).innerText){
@@ -34,14 +32,17 @@ async function inputAnimal(){
         coordinate();
     }
     else{
-        let retValue = returnValue(count);
+        retValue.push(t = await returnValue(count));
+       
         console.log(retValue);
         count++;
+        
         zeroSet();
         if(count === 5){
             document.getElementById("page2").style.display = "none";
             document.getElementById("page3").style.display = "block";
             page3Start = true;
+            
         }
         else{coordinate();
 

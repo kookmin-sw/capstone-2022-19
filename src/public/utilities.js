@@ -9,10 +9,10 @@
 let cycle = 0;
 let totalScore = 0 ;
 let storage = new Array();
-let eyeXDiffSum = 0;
-let eyeYDiffSum = 0;
-let EyelidDiffSum = 0;
-let eyelidToPupillDisSum = 0;
+let eyeXDiffSum= new Array();
+let eyeYDiffSum = new Array();
+let EyelidDiffSum = new Array();
+let eyelidToPupillDisSum= new Array();
 
 let user_status = 0;
 let two_facesum = 0;
@@ -30,35 +30,52 @@ function set_user_status(score){
 
   async function returnValue(count){
     if(count === 0){          //상
-  
-      storage.push(((eyelidToPupillDisSum)/50));
+      //storage.push(((eyelidToPupillDisSum)/50));
+      let sumTop = eyelidToPupillDisSum.reduce((stack, el)=>{
+        return stack + el;
+      }, 0);
+      let averageTop = sumTop / eyelidToPupillDisSum.length;
+      console.log(averageTop);
+      return averageTop;
     }
 
     else if(count ===2){     //하
-  
-      storage.push((EyelidDiffSum)/50);
-
+      let sumBottom = EyelidDiffSum.reduce((stack, el)=>{
+        return stack + el;
+      }, 0);
+      let averageBottom = sumBottom / EyelidDiffSum.length;
+      console.log(averageBottom);
+      return averageBottom;
     }
 
     else{                 //좌 우 가운데
-      
-      storage.push(((eyeXDiffSum)/50),((eyeYDiffSum)/50));
+      let XsumNomal = eyeXDiffSum.reduce((stack, el)=>{
+        return stack + el;
+      }, 0);
+      let averageX = XsumNomal / eyeXDiffSum.length;
+
+
+      let YsumNomal = eyeYDiffSum.reduce((stack, el)=>{
+        return stack + el;
+      }, 0);
+      let averageY = YsumNomal / eyeYDiffSum.length;
+
+      console.log(averageX);
+      return averageX;
     }
 
+
+
     //console.log(cycle);
-    return storage;
+    //return (averageTop,averageBottom,averageX,averageY);
     //console.log(leftEyeXDiffSum,RightEyeXDiffSum,leftEyeYDiffSum,RightEyeYDiffSum);
 }
 
 async function zeroSet(){
-  leftEyeXDiffSum = 0;
-  leftEyeYDiffSum = 0;
-  RightEyeXDiffSum = 0;
-  RightEyeYDiffSum = 0;
-  eyeXDiffSum = 0;
-  eyeYDiffSum = 0;
-  EyelidDiffSum = 0;
-  eyelidToPupillDisSum =0;
+  eyeXDiffSum= new Array();
+  eyeYDiffSum = new Array();
+  EyelidDiffSum = new Array();
+  eyelidToPupillDisSum= new Array();
 }
 
   async function verification (face) {
@@ -113,21 +130,17 @@ async function zeroSet(){
     
     let eyelidToPupillDis= (((RPC[1] - LRECENTER[1]) + (LPC[1] - LLECENTER[1])) / 2) * -1; // 홍채와 아래 눈꺼풀과의 차이 => 위를 쳐다보고 있는지
 
-    eyeXDiffSum = eyeXDiffSum + (LPC[0]-LEC[0]) + (RPC[0] - REC[0]); //LeftEyeXDiffSum + RightEyeXDiffSum == eyeXDiffSum  
-    eyeYDiffSum = eyeYDiffSum + (LPC[1] - LEC[1]) + (RPC[1] - REC[1]);  //LeftEyeYDiffSum + RightEyeYDiffSum == eyeXDiffSum  
+    eyeXDiffSum.push((LPC[0]-LEC[0]) + (RPC[0] - REC[0])); //LeftEyeXDiffSum + RightEyeXDiffSum == eyeXDiffSum  
+    eyeYDiffSum.push((LPC[1] - LEC[1]) + (RPC[1] - REC[1]));  //LeftEyeYDiffSum + RightEyeYDiffSum == eyeXDiffSum  
     
-    eyelidToPupillDisSum = eyelidToPupillDisSum+ eyelidToPupillDis;
-    EyelidDiffSum = EyelidDiffSum+ EyelidDiff;
-    console.log("눈꺼풀사이의거리"+EyelidDiffSum);
+    eyelidToPupillDisSum.push(eyelidToPupillDis);
+    EyelidDiffSum.push(EyelidDiff);
+  
 
-
-    //console.log(eyeXDiffSum,eyeYDiffSum);
-    EyelidDiff = (RightEyelidDiff[1] + LeftEyelidDiff[1]) * -1;
-    cycle++;
     //console.log(eyelidToPupillDis,EyelidDiff);
-    console.log("eyelidToPupillDis!: "+eyelidToPupillDis);
+    //console.log("eyelidToPupillDis!: "+eyelidToPupillDis);
     //아래 바라보는지 판단
-    console.log("EyelidDiff!: "+EyelidDiff);
+    //console.log("EyelidDiff!: "+EyelidDiff);
     return ({eyeXDiffSum,eyeYDiffSum});
     
 
@@ -282,30 +295,30 @@ async function zeroSet(){
     //아래 바라보는지 판단
     console.log("EyelidDiff!: "+EyelidDiff);
     //---------------------------------------------------------//
-
+    
     let leftEyeXDiff = LPC[0] - LEC[0];
     let leftEyeYDiff = LPC[1] - LEC[1];
 
     let rightEyeXDiff = RPC[0] - REC[0];
     let rightEyeYDiff = RPC[1] - REC[1];
     let returnScore = 0;
-
-    if ((leftEyeXDiff + rightEyeXDiff) < /*-5*/ storage[6]) {
+      
+    if ((leftEyeXDiff + rightEyeXDiff) <retValue[4]  /*-5*/) {
         console.log("eye right");
         returnScore = 2.5;
 
-    } else if ((leftEyeXDiff + rightEyeXDiff) > /* 5 */ storage[4]) {
+    } else if ((leftEyeXDiff + rightEyeXDiff) > retValue[3] /* 5 */) {
         console.log("eye left");
         returnScore = 2.5;
 
     } 
-                                   
-     else if (eyelidToPupillDis > /*8*/ storage[0]){
+                         
+      else if(eyelidToPupillDis > retValue[0]){
       console.log("eye up");
       returnScore = 2.5;
      }
 
-    else if (EyelidDiff < /*-17*/ storage[3]){
+    else if (EyelidDiff < retValue[2] /*-17*/){
       console.log("eye down");
       returnScore = 1.5;
     }
