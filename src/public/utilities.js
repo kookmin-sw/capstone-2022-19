@@ -295,11 +295,7 @@ async function zeroSet(){
     //아래 바라보는지 판단
     console.log("EyelidDiff!: "+EyelidDiff);
     //---------------------------------------------------------//
-    console.log(retValue[0]);
-    console.log(retValue[1]);
-    console.log(retValue[2]);
-    console.log(retValue[3]);
-    console.log(retValue[4]);
+    
     let leftEyeXDiff = LPC[0] - LEC[0];
     let leftEyeYDiff = LPC[1] - LEC[1];
 
