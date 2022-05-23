@@ -45,6 +45,17 @@ function handleStudentBtn(event) {
     socket.emit("studentJoin", data);
 }
 
+function get_timestamp() {
+    var today = new Date();
+    var hour = today.getHours();
+    var min = today.getMinutes();
+
+    if (min < 10 && min >= 0) { var time = hour + ":0" + min; }
+    else { var time = hour + ":" + min; }
+
+    return time;
+}
+
 
 function exitRoom(){
     location.href = "/exit";
@@ -52,8 +63,31 @@ function exitRoom(){
 
 function send_chat(){
     const msg = msgInput.value;
-    msgInput.value = "";
-    socket.emit("send_msg",msg);
+    var time = get_timestamp();
+
+
+    if(msg){
+        obj = {
+            "message": msg,
+            "time": time,
+            "name": userName
+        }
+        obj = JSON.stringify(obj)
+        console.log(obj);
+
+        
+        var msg_container = "<div class=msg_container style='text-align : left'></div>";
+        $(".massage_area").append(msg_container);
+        var msg_time = "<div id=msg_time>" + time + "</div>";
+        var msg_window = "<div id=sand_msg>" + userName + " : " + msg + "</div>";
+        $(".msg_container:last").append(msg_window);
+        $(".msg_container:last").append(msg_time);
+    
+        
+        msgInput.value = "";
+    
+        socket.emit("send_msg",obj);
+    }
 }
 
 

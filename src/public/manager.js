@@ -66,6 +66,7 @@ function send_chat() {
             "time": time,
             "name": userName
         }
+        
         obj = JSON.stringify(obj)
 
         if (recipient != "notice") {
@@ -208,6 +209,8 @@ socket.on("receive_msg", (obj) => {
     var msg_window = "<div id=sand_msg>" + userName + " : " + message + "</div>";
     $(".msg_container:last").append(msg_time);
     $(".msg_container:last").append(msg_window);
+
+    
 })
 
 
