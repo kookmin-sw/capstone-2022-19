@@ -42,5 +42,5 @@ As non-face-to-face activities have been activated due to the coronavirus infect
 ---------------------------------------
 ### 6. 시스템 구조
 
-<img src="src/public/archi.png">
+<img src="src/public/archi.PNG">
 
