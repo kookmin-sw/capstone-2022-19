@@ -1,6 +1,4 @@
-(https://classroom.github.com/online_ide?assignment_repo_id=7224673&assignment_repo_type=AssignmentRepo)   
-   
-   
+      
 # On-감독  
 <img src="src/public/logo.png"  width="1000" height="200">
 
@@ -14,8 +12,10 @@ As non-face-to-face activities have been activated due to the coronavirus infect
 
 ---------------------------------------
 ### 3. 시연 영상
+<a href="https://youtu.be/R8JPlvt5Rjg">
+      <img src="src/public/logo.png">
+  </a>
 
-https://youtu.be/R8JPlvt5Rjg
 ---------------------------------------
 ### 4. 팀 소개
 
