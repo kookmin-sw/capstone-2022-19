@@ -13,7 +13,7 @@ As non-face-to-face activities have been activated due to the coronavirus infect
 ---------------------------------------
 ### 3. 시연 영상
 <a href="https://youtu.be/R8JPlvt5Rjg">
-      <img src="src/public/logo.png">
+      <img src="src/public/Original.png">
   </a>
 
 ---------------------------------------
