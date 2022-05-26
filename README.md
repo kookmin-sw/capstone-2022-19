@@ -2,7 +2,7 @@
    
    
 # On-감독  
-<img src="public/logo.png"  width="500" height="100">
+<img src="src/public/logo.png"  width="500" height="100">
 
 ---------------------------------------  
 ### 1. 프로젝트 소개
