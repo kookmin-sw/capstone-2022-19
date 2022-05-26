@@ -18,26 +18,49 @@ As non-face-to-face activities have been activated due to the coronavirus infect
 
 ---------------------------------------
 ### 4. 팀 소개
-
+```markdown
 **장우석**   
 1.Student ID: 20171692    
 2.e-mail: reverse@kookmin.ac.kr   
 3.Role: algorithm   
-   
+```   
+```markdown   
 **최근표**   
 1.Student ID: 20171710   
 2.e-mail: ckp220@kookmin.ac.kr   
 3.Role: front-end & ui   
-   
+```
+```markdown
 **한창희**   
 1.Student ID: 20171719   
 2.e-mail: sjrnfl0412@kookmin.ac.kr   
 3.Role: leader, back-end & server
-
+```
 ---------------------------------------
 ### 5. 사용법
 
-추가예정
+-local 환경에서 테스트
+```markdown
+$ git clone https://github.com/kookmin-sw/capstone-2022-19.git
+$ cd capstone-2022-19
+$ npm install
+$ npm start
+```
+-heroku 환경에서 테스트
+```markdown
+$ heroku login
+$ heroku create <YOUR-APP-NAME>
+$ git clone https://github.com/kookmin-sw/capstone-2022-19.git
+$ cd capstone-2022-19
+$ heroku git:remote -a <YOUR-APP-NAME>
+$ git push heroku master
+```
+-수정 및 재배포
+```markdown
+$ git add .
+$ git commit -m "commit message" 
+$ git push heroku master
+```
 
 ---------------------------------------
 ### 6. 시스템 구조
