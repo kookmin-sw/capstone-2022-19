@@ -2,7 +2,7 @@
    
    
 # On-감독  
-<img src="src/public/logo.png"  width="500" height="100">
+<img src="src/public/logo.png"  width="1000" height="200">
 
 ---------------------------------------  
 ### 1. 프로젝트 소개
@@ -13,9 +13,9 @@
 As non-face-to-face activities have been activated due to the coronavirus infection (COVID-19), various evaluation tests conducted at universities are also being conducted non-face-to-face. However, due to the nature of non-face-to-face examinations, it is not easy to identify individual or group misconduct, and complaints or unfairness are raised. Therefore, in order to ensure that everyone can take the test equally, it is necessary to operate so that fraudulent acts that may occur in non-face-to-face tests can be detected and appropriate sanctions are applied. Accordingly, ON supervision service uses WebRTC, a Web Real-Time Communication, to provide an environment for taking non-face-to-face tests on a website and solves problems by developing an algorithm to detect cheating.
 
 ---------------------------------------
-### 3. 소개 영상
+### 3. 시연 영상
 
-추가 예정
+https://drive.google.com/file/d/1pp8d-n3402iB7iOpGrvnqQUYlXzZivLH/view?usp=shahttps://drive.google.com/file/d/1pp8d-n3402iB7iOpGrvnqQUYlXzZivLH/view?usp=sharingring
 
 ---------------------------------------
 ### 4. 팀 소개
