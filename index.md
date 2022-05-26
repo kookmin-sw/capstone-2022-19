@@ -38,5 +38,7 @@ Currently, non-face-to-face activities have been activated due to COVID-19, vari
 
 향후 추가 예정
 
-### 6.기타
+### 6.시스템 구조
+
+<img src="src/public/archi.PNG">
 
