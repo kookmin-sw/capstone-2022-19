@@ -36,7 +36,28 @@ Currently, non-face-to-face activities have been activated due to COVID-19, vari
 
 ### 5.사용법
 
-향후 추가 예정
+-local 환경에서 테스트
+```markdown
+$ git clone https://github.com/kookmin-sw/capstone-2022-19.git
+$ cd capstone-2022-19
+$ npm install
+$ npm start
+```
+-heroku 환경에서 테스트
+```markdown
+$ heroku login
+$ heroku create <YOUR-APP-NAME>
+$ git clone https://github.com/kookmin-sw/capstone-2022-19.git
+$ cd capstone-2022-19
+$ heroku git:remote -a <YOUR-APP-NAME>
+$ git push heroku master
+```
+-수정 및 재배포
+```markdown
+$ git add .
+$ git commit -m "commit message" 
+$ git push heroku master
+```
 
 ### 6.시스템 구조
 
