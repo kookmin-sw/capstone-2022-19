@@ -40,8 +40,7 @@ As non-face-to-face activities have been activated due to the coronavirus infect
 추가예정
 
 ---------------------------------------
-### 6. 기타
+### 6. 시스템 구조
 
-
-**팀페이지 주소** -> https://kookmin-sw.github.io/capstone-2022-19/
+<img src="src/public/archi.png">
 
