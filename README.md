@@ -1,8 +1,8 @@
-[![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-f059dc9a6f8d3a56e377f745f24479a46679e63a5d9fe6f495e02850cd0d8118.svg)](https://classroom.github.com/online_ide?assignment_repo_id=7224673&assignment_repo_type=AssignmentRepo)   
+(https://classroom.github.com/online_ide?assignment_repo_id=7224673&assignment_repo_type=AssignmentRepo)   
    
    
 # On-감독  
-<img src="https://user-images.githubusercontent.com/28581787/161417212-011cb004-0c1b-431b-a0bc-1f701e8e09ee.png"  width="100" height="100">
+<img src="public/logo.png"  width="500" height="100">
 
 ---------------------------------------  
 ### 1. 프로젝트 소개
