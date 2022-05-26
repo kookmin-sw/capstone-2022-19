@@ -15,7 +15,6 @@ As non-face-to-face activities have been activated due to the coronavirus infect
 ---------------------------------------
 ### 3. 시연 영상
 
-https://drive.google.com/file/d/1pp8d-n3402iB7iOpGrvnqQUYlXzZivLH/view?usp=shahttps://drive.google.com/file/d/1pp8d-n3402iB7iOpGrvnqQUYlXzZivLH/view?usp=sharingring
 
 ---------------------------------------
 ### 4. 팀 소개
