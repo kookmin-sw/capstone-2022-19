@@ -23,17 +23,17 @@ As non-face-to-face activities have been activated due to the coronavirus infect
 **장우석**   
 1.Student ID: 20171692    
 2.e-mail: reverse@kookmin.ac.kr   
-3.Role: back-end   
+3.Role: algorithm   
    
 **최근표**   
 1.Student ID: 20171710   
 2.e-mail: ckp220@kookmin.ac.kr   
-3.Role: front-end   
+3.Role: front-end & ui   
    
 **한창희**   
 1.Student ID: 20171719   
 2.e-mail: sjrnfl0412@kookmin.ac.kr   
-3.Role: back-end   
+3.Role: back-end & server
 
 ---------------------------------------
 ### 5. 사용법
