@@ -1,8 +1,6 @@
-[![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-f059dc9a6f8d3a56e377f745f24479a46679e63a5d9fe6f495e02850cd0d8118.svg)](https://classroom.github.com/online_ide?assignment_repo_id=7224673&assignment_repo_type=AssignmentRepo)   
-   
-   
+      
 # On-감독  
-<img src="https://user-images.githubusercontent.com/28581787/161417212-011cb004-0c1b-431b-a0bc-1f701e8e09ee.png"  width="100" height="100">
+<img src="src/public/logo.png">
 
 ---------------------------------------  
 ### 1. 프로젝트 소개
@@ -13,36 +11,59 @@
 As non-face-to-face activities have been activated due to the coronavirus infection (COVID-19), various evaluation tests conducted at universities are also being conducted non-face-to-face. However, due to the nature of non-face-to-face examinations, it is not easy to identify individual or group misconduct, and complaints or unfairness are raised. Therefore, in order to ensure that everyone can take the test equally, it is necessary to operate so that fraudulent acts that may occur in non-face-to-face tests can be detected and appropriate sanctions are applied. Accordingly, ON supervision service uses WebRTC, a Web Real-Time Communication, to provide an environment for taking non-face-to-face tests on a website and solves problems by developing an algorithm to detect cheating.
 
 ---------------------------------------
-### 3. 소개 영상
-
-추가 예정
+### 3. 시연 영상
+<a href="https://youtu.be/R8JPlvt5Rjg">
+      <img src="src/public/Original.png" width = "300px" height = "300px">
+  </a>
 
 ---------------------------------------
 ### 4. 팀 소개
-
+```markdown
 **장우석**   
 1.Student ID: 20171692    
 2.e-mail: reverse@kookmin.ac.kr   
 3.Role: algorithm   
-   
+```   
+```markdown   
 **최근표**   
 1.Student ID: 20171710   
 2.e-mail: ckp220@kookmin.ac.kr   
 3.Role: front-end & ui   
-   
+```
+```markdown
 **한창희**   
 1.Student ID: 20171719   
 2.e-mail: sjrnfl0412@kookmin.ac.kr   
-3.Role: back-end & server
-
+3.Role: leader, back-end & server
+```
 ---------------------------------------
 ### 5. 사용법
 
-추가예정
+-local 환경에서 테스트
+```markdown
+$ git clone https://github.com/kookmin-sw/capstone-2022-19.git
+$ cd capstone-2022-19
+$ npm install
+$ npm start
+```
+-heroku 환경에서 테스트
+```markdown
+$ heroku login
+$ heroku create <YOUR-APP-NAME>
+$ git clone https://github.com/kookmin-sw/capstone-2022-19.git
+$ cd capstone-2022-19
+$ heroku git:remote -a <YOUR-APP-NAME>
+$ git push heroku master
+```
+-수정 및 재배포
+```markdown
+$ git add .
+$ git commit -m "commit message" 
+$ git push heroku master
+```
 
 ---------------------------------------
-### 6. 기타
+### 6. 시스템 구조
 
-
-**팀페이지 주소** -> https://kookmin-sw.github.io/capstone-2022-19/
+<img src="src/public/archi.PNG">
 
