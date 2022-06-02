@@ -13,7 +13,7 @@ let eyeXDiffSum= new Array();
 let eyeYDiffSum = new Array();
 let EyelidDiffSum = new Array();
 let eyelidToPupillDisSum= new Array();
-
+let faceDiffSum = new Array();
 let user_status = 0;
 let two_facesum = 0;
 let face_missingsum =0;
@@ -34,9 +34,24 @@ function set_user_status(score){
       let sumTop = eyelidToPupillDisSum.reduce((stack, el)=>{
         return stack + el;
       }, 0);
+
       let averageTop = sumTop / eyelidToPupillDisSum.length;
       console.log(averageTop);
+
       return averageTop;
+
+
+    }
+
+    if(count === 1){          
+      let facesum = faceDiffSum.reduce((stack, el)=>{
+        return stack + el;
+      }, 0);
+
+      let averagefacesum = facesum / faceDiffSum.length;
+      console.log(averagefacesum);
+
+      return averagefacesum;
     }
 
     else if(count ===2){     //하
@@ -126,13 +141,17 @@ async function zeroSet(){
     let LEC = [(LE2[0] + LE4[0]) / 2, (LE2[1] + LE4[1]) / 2]
     let REC = [(RE2[0] + RE4[0]) / 2, (RE2[1] + RE4[1]) / 2]
 
+    let faceTop = face[0].scaledMesh[10];   
+    let faceBottom = face[0].scaledMesh[152];
     
     
+    let faceDiff= [Math.sqrt(((faceTop[0] - faceBottom[0])**2) + ((faceTop[1] - faceBottom[1])**2))];
+
     let eyelidToPupillDis= (((RPC[1] - LRECENTER[1]) + (LPC[1] - LLECENTER[1])) / 2) * -1; // 홍채와 아래 눈꺼풀과의 차이 => 위를 쳐다보고 있는지
 
     eyeXDiffSum.push((LPC[0]-LEC[0]) + (RPC[0] - REC[0])); //LeftEyeXDiffSum + RightEyeXDiffSum == eyeXDiffSum  
     eyeYDiffSum.push((LPC[1] - LEC[1]) + (RPC[1] - REC[1]));  //LeftEyeYDiffSum + RightEyeYDiffSum == eyeXDiffSum  
-    
+    faceDiffSum.push(faceDiff[0]);
     eyelidToPupillDisSum.push(eyelidToPupillDis);
     EyelidDiffSum.push(EyelidDiff);
   
@@ -211,7 +230,7 @@ async function zeroSet(){
     let faceBottom = face[0].scaledMesh[152];
     let faceNose = face[0].scaledMesh[1]; 
     let faceMouth = face[0].scaledMesh[0]; 
-    totalScore = totalScore + detectPupil(LEC, REC, LPC, RPC, EyelidDiff, eyelidToPupillDis );
+    totalScore = totalScore + detectPupil(LEC, REC, LPC, RPC, EyelidDiff, eyelidToPupillDis, faceTop, faceBottom);
     totalScore = totalScore + faceAngle(faceLeft, faceRight, faceTop, faceBottom);
 
     if(user_status != set_user_status(totalScore)){
@@ -287,7 +306,7 @@ async function zeroSet(){
     return returnScore;
 
   }
-  const detectPupil = (LEC, REC, LPC, RPC, EyelidDiff, eyelidToPupillDis) => {
+  const detectPupil = (LEC, REC, LPC, RPC, EyelidDiff, eyelidToPupillDis,faceTop, faceBottom) => {
     //console.log("EyelidDiff "+(LeftEyelidDiff[1]+RightEyelidDiff[1]));
 
     //위 바라보는지 판단
@@ -302,30 +321,38 @@ async function zeroSet(){
     let rightEyeXDiff = RPC[0] - REC[0];
     let rightEyeYDiff = RPC[1] - REC[1];
     let returnScore = 0;
-      
-    if ((leftEyeXDiff + rightEyeXDiff) <retValue[4]  /*-5*/) {
+
+    let facediff = Math.sqrt(((faceTop[0]-faceBottom[0])**2) + ((faceTop[1] - faceBottom[1])**2));
+    let ratio = facediff/retValue[1];
+    console.log("facediff : " + facediff);
+    console.log("ratio : " + ratio);
+
+    if ((leftEyeXDiff + rightEyeXDiff) <(-0.5 + (retValue[4]))*ratio  /*-5*/) {
+        console.log(leftEyeXDiff + rightEyeXDiff);
         console.log("eye right");
+        
         returnScore = 2.5;
 
-    } else if ((leftEyeXDiff + rightEyeXDiff) > retValue[3] /* 5 */) {
+    } else if ((leftEyeXDiff + rightEyeXDiff) > (0.5+ retValue[3])*ratio /* 5 */) {
+        console.log(leftEyeXDiff + rightEyeXDiff);
         console.log("eye left");
         returnScore = 2.5;
 
     } 
                          
-      else if(eyelidToPupillDis > retValue[0]){
+      else if(eyelidToPupillDis > (retValue[0]+0.2)*ratio){
       console.log("eye up");
       returnScore = 2.5;
      }
 
-    else if (EyelidDiff < retValue[2] /*-17*/){
+    else if (EyelidDiff < (retValue[2]-0.2)*ratio /*-17*/){
       console.log("eye down");
       returnScore = 1.5;
     }
 
     else {
       //console.log(leftEyeYDiff+rightEyeYDiff);
-      console.log("eye center");
+      // console.log("eye center");
       returnScore = -0.5;
   }
     return returnScore;
