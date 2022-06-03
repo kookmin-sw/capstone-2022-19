@@ -40,7 +40,9 @@ As non-face-to-face activities have been activated due to the coronavirus infect
 ### 5. 사용법
 
 -local 환경에서 테스트
+
 ```markdown
+local에서 테스트를 진행할 경우 세션이 브라우저를 종료시킬 때까지 유지되므로 학생과 교수의 브라우저를 다르게 실행한다.
 $ git clone https://github.com/kookmin-sw/capstone-2022-19.git
 $ cd capstone-2022-19
 $ npm install
