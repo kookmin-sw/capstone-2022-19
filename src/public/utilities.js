@@ -352,7 +352,7 @@ async function zeroSet(){
       returnScore = 2.5;
      }
 
-    else if (EyelidDiff < (retValue[2]+0.5)*ratio /*-17*/){
+    else if (EyelidDiff < (retValue[2]-0.5)*ratio /*-17*/){
       console.log("eye down");
       returnScore = 1.5;
     }
@@ -360,7 +360,7 @@ async function zeroSet(){
     else {
       //console.log(leftEyeYDiff+rightEyeYDiff);
       // console.log("eye center");
-      returnScore = -0.2;
+      returnScore = -0.4;
   }
     return returnScore;
 }
