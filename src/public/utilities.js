@@ -233,6 +233,13 @@ async function zeroSet(){
     totalScore = totalScore + detectPupil(LEC, REC, LPC, RPC, EyelidDiff, eyelidToPupillDis, faceTop, faceBottom);
     totalScore = totalScore + faceAngle(faceLeft, faceRight, faceTop, faceBottom);
 
+    if(totalScore>100){
+      totalScore = 100;
+    }
+    if(totalScore<0){
+      totalScore = 0;
+    }
+
     if(user_status != set_user_status(totalScore)){
       user_status = set_user_status(totalScore);
       socket.emit("detected", user_status);
@@ -331,12 +338,12 @@ async function zeroSet(){
         console.log(leftEyeXDiff + rightEyeXDiff);
         console.log("eye right");
         
-        returnScore = 2.5;
+        returnScore = 5;
 
     } else if ((leftEyeXDiff + rightEyeXDiff) > (0.5+ retValue[3])*ratio /* 5 */) {
         console.log(leftEyeXDiff + rightEyeXDiff);
         console.log("eye left");
-        returnScore = 2.5;
+        returnScore = 5;
 
     } 
                          
@@ -345,7 +352,7 @@ async function zeroSet(){
       returnScore = 2.5;
      }
 
-    else if (EyelidDiff < (retValue[2]-0.2)*ratio /*-17*/){
+    else if (EyelidDiff < (retValue[2]-0.5)*ratio /*-17*/){
       console.log("eye down");
       returnScore = 1.5;
     }
@@ -353,7 +360,7 @@ async function zeroSet(){
     else {
       //console.log(leftEyeYDiff+rightEyeYDiff);
       // console.log("eye center");
-      returnScore = -0.5;
+      returnScore = -0.4;
   }
     return returnScore;
 }
